@@ -31,3 +31,10 @@ export async function register(params) {
         data: params
     })
 }
+
+export function userinfo() {
+    return request({
+        url:'user/info',
+        method :'get',
+    })
+}

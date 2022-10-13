@@ -55,7 +55,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="postMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">创作</a>
               <ul class="dropdown-menu" aria-labelledby="postMenu">
                 <li> <router-link class="dropdown-item" to="/edit_posts">发布动态</router-link></li>
-                <li> <a class="dropdown-item" href="create-page.html">分享图片</a></li>
+                <li> <router-link class="dropdown-item" to="/article">分享图片</router-link></li>
                 <li> <a class="dropdown-item" href="create-page.html">分享视频</a></li>
                 <li> <a class="dropdown-item" href="create-page.html">发布投票</a></li>
               </ul>
@@ -71,17 +71,17 @@
 
         <!-- Nav right START -->
         <ul class="nav flex-nowrap align-items-center ms-sm-3 list-unstyled">
-          <li class="nav-item ms-2">
+          <li class="nav-item ms-2" v-if="user_name">
             <a class="nav-link icon-md btn btn-light p-0" href="messaging.html">
               <i class="bi bi-chat-left-text-fill fs-6"> </i>
             </a>
           </li>
-          <li class="nav-item ms-2">
+          <li class="nav-item ms-2" v-if="user_name">
             <a class="nav-link icon-md btn btn-light p-0" href="settings.html">
               <i class="bi bi-gear-fill fs-6"> </i>
             </a>
           </li>
-          <li class="nav-item dropdown ms-2">
+          <li class="nav-item dropdown ms-2" v-if="user_name">
             <a class="nav-link icon-md btn btn-light p-0" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
               <span class="badge-notif animation-blink"></span>
               <i class="bi bi-bell-fill fs-6"> </i>
@@ -227,7 +227,7 @@
 </template>
 
 <script>
-import { logout } from "@/api/user.js"  
+import { logout, userinfo } from "@/api/user.js"  
 export default {
   name: "HelloWorld",
   
@@ -273,6 +273,7 @@ export default {
   },
   created() {
     this.user_name = this.func.getUserName();
+    userinfo();
   }
 };
 </script>

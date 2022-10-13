@@ -82,8 +82,8 @@ export default {
   data() {
     return {
       form: {
-        username: "",
-        password: "",
+        username: "admin111",
+        password: "Aadmin1234",
       }
     };
   },
@@ -104,7 +104,6 @@ export default {
       } else {
         form.classList.add('was-validated')
       }
-      
     },
     closeLoginModal() {
       this.form = this.$options.data().form;
