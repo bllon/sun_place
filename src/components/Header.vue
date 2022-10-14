@@ -1,18 +1,33 @@
 <template>
   <header class="navbar-light fixed-top header-static bg-mode">
-
     <!-- Logo Nav START -->
     <nav class="navbar navbar-expand-lg">
       <div class="container">
         <!-- Logo START -->
         <a class="navbar-brand" href="/">
-          <img class="light-mode-item navbar-brand-item" src="/static/images/logo.svg" alt="logo">
-          <img class="dark-mode-item navbar-brand-item" src="/static/images/logo.svg" alt="logo">
+          <img
+            class="light-mode-item navbar-brand-item"
+            src="/static/images/logo/04.svg"
+            alt="logo"
+          />
+          <img
+            class="dark-mode-item navbar-brand-item"
+            src="/static/images/logo/04.svg"
+            alt="logo"
+          />
         </a>
         <!-- Logo END -->
 
         <!-- Responsive navbar toggler -->
-        <button class="navbar-toggler ms-auto icon-md btn btn-light p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler ms-auto icon-md btn btn-light p-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-animation">
             <span></span>
             <span></span>
@@ -20,29 +35,8 @@
           </span>
         </button>
 
-        <!-- Responsive navbar toggler -->
-        <button class="navbar-toggler ms-auto bi-search btn btn-light p-0" type="button" data-bs-toggle="collapse" data-bs-target="#searchbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <!-- <span class="navbar-toggler-animation">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span> -->
-        </button>
-
         <!-- Main navbar START -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
-
-          <!-- Nav Search START -->
-          <!-- <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
-            <div class="nav-item w-100">
-              <form class="rounded position-relative">
-                <input class="form-control ps-5 bg-light" type="search" placeholder="搜索..." aria-label="Search">
-                <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit"><i class="bi bi-search fs-5"> </i></button>
-              </form>
-            </div>
-          </div> -->
-          <!-- Nav Search END -->
-
           <ul class="navbar-nav navbar-nav-scroll ml-auto">
             <!-- Nav item 1 Demos -->
             <li class="nav-item">
@@ -50,100 +44,187 @@
               <router-link class="nav-link" to="/">首页</router-link>
             </li>
             <!-- Nav item 2 Pages -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="pagesMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">应用</a>
+            <!-- <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="pagesMenu"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >应用</a
+              >
               <ul class="dropdown-menu" aria-labelledby="pagesMenu">
-                <li> <router-link class="dropdown-item" to="/resume">简历助手</router-link></li>
-                <li> <router-link class="dropdown-item" to="/resume">在线云盘</router-link></li>
-                <li> <router-link class="dropdown-item" to="/resume">投票</router-link></li>
+                <li>
+                  <router-link class="dropdown-item" to="/resume"
+                    >简历助手</router-link
+                  >
+                </li>
+                <li>
+                  <router-link class="dropdown-item" to="/resume"
+                    >在线云盘</router-link
+                  >
+                </li>
+                <li>
+                  <router-link class="dropdown-item" to="/resume"
+                    >投票</router-link
+                  >
+                </li>
               </ul>
-            </li>
-
-            <!-- Nav item 3 Post -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="postMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">创作</a>
-              <ul class="dropdown-menu" aria-labelledby="postMenu">
-                <li> <router-link class="dropdown-item" to="/article/edit">发布动态</router-link></li>
-                <li> <router-link class="dropdown-item" to="/article">分享图片</router-link></li>
-                <li> <a class="dropdown-item" href="create-page.html">分享视频</a></li>
-                <li> <a class="dropdown-item" href="create-page.html">发布投票</a></li>
-              </ul>
+            </li> -->
+            <li class="nav-item">
+              <router-link class="nav-link" to="/article/edit">发布文章</router-link>
             </li>
           </ul>
-          <transition :duration="{ enter: 500, leave: 500 }"
-              enter-active-class="active" 
-              leave-active-class="nav-link">
-              <router-view/>
+          <transition
+            :duration="{ enter: 500, leave: 500 }"
+            enter-active-class="active"
+            leave-active-class="nav-link"
+          >
+            <router-view />
           </transition>
         </div>
         <!-- Main navbar END -->
 
         <!-- Nav right START -->
         <ul class="nav flex-nowrap align-items-center ms-sm-3 list-unstyled">
-          <div class="collapse navbar-collapse" id="searchbarCollapse">
-            <!-- Nav Search START -->
-            <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
-              <div class="nav-item w-100">
-                <form class="rounded position-relative">
-                  <input class="form-control ps-5 bg-light" type="search" placeholder="搜索..." aria-label="Search">
-                  <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit"><i class="bi bi-search fs-5"> </i></button>
-                </form>
+          
+          <li class="nav-item ms-2 dropdown nav-search">
+            <a
+              class="nav-link btn icon-md p-0"
+              href="#"
+              id="searchDropdown"
+              role="button"
+              data-bs-auto-close="outside"
+              data-bs-display="static"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-search fs-5"> </i>
+            </a>
+            <div
+              class="dropdown-menu dropdown-animation dropdown-menu-start p-3 small"
+              aria-labelledby="searchDropdown"
+              style="left:0;right:0;width:auto;"
+            >
+              <!-- Profile info -->
+              <div class="nav flex-nowrap align-items-center">
+                <div class="nav-item w-100">
+                  <form class="rounded position-relative">
+                    <input
+                      class="form-control ps-5 bg-light"
+                      type="search"
+                      placeholder="Search..."
+                      aria-label="Search"
+                    />
+                    <button
+                      class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y"
+                      type="submit"
+                    >
+                      <i class="bi bi-search fs-5"> </i>
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
-            <hr>
-            <!-- Nav Search END -->
-          </div>
+          </li>
           <li class="nav-item ms-2" v-if="user_name">
-            <a class="nav-link icon-md btn btn-light p-0" href="messaging.html">
+            <a class="nav-link icon-md btn btn-light p-0" href="/">
               <i class="bi bi-chat-left-text-fill fs-6"> </i>
             </a>
           </li>
           <li class="nav-item ms-2" v-if="user_name">
-            <a class="nav-link icon-md btn btn-light p-0" href="settings.html">
+            <a class="nav-link icon-md btn btn-light p-0" href="/">
               <i class="bi bi-gear-fill fs-6"> </i>
             </a>
           </li>
           <li class="nav-item dropdown ms-2" v-if="user_name">
-            <a class="nav-link icon-md btn btn-light p-0" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            <a
+              class="nav-link icon-md btn btn-light p-0"
+              href="#"
+              id="notifDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
               <span class="badge-notif animation-blink"></span>
               <i class="bi bi-bell-fill fs-6"> </i>
             </a>
-            <div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0" aria-labelledby="notifDropdown">
+            <div
+              class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0"
+              aria-labelledby="notifDropdown"
+            >
               <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h6 class="m-0">Notifications <span class="badge bg-danger bg-opacity-10 text-danger ms-2">4 new</span></h6>
+                <div
+                  class="card-header d-flex justify-content-between align-items-center"
+                >
+                  <h6 class="m-0">
+                    Notifications
+                    <span class="badge bg-danger bg-opacity-10 text-danger ms-2"
+                      >4 new</span
+                    >
+                  </h6>
                   <a class="small" href="#">Clear all</a>
                 </div>
                 <div class="card-body p-0">
                   <ul class="list-group list-group-flush list-unstyled p-2">
                     <!-- Notif item -->
                     <li>
-                      <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
-                        <div class="avatar text-center d-none d-sm-inline-block">
-                          <img class="avatar-img rounded-circle" src="/static/images/avatar/01.jpg" alt="">
+                      <div
+                        class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3"
+                      >
+                        <div
+                          class="avatar text-center d-none d-sm-inline-block"
+                        >
+                          <img
+                            class="avatar-img rounded-circle"
+                            src="/static/images/avatar/01.jpg"
+                            alt=""
+                          />
                         </div>
                         <div class="ms-sm-3">
                           <div class=" d-flex">
-                          <p class="small mb-2"><b>Judy Nguyen</b> sent you a friend request.</p>
-                          <p class="small ms-3 text-nowrap">Just now</p>
-                        </div>
-                        <div class="d-flex">
-                          <button class="btn btn-sm py-1 btn-primary me-2">Accept </button>
-                          <button class="btn btn-sm py-1 btn-danger-soft">Delete </button>
+                            <p class="small mb-2">
+                              <b>Judy Nguyen</b> sent you a friend request.
+                            </p>
+                            <p class="small ms-3 text-nowrap">Just now</p>
+                          </div>
+                          <div class="d-flex">
+                            <button class="btn btn-sm py-1 btn-primary me-2">
+                              Accept
+                            </button>
+                            <button class="btn btn-sm py-1 btn-danger-soft">
+                              Delete
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
                     </li>
                     <!-- Notif item -->
                     <li>
-                      <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative">
-                        <div class="avatar text-center d-none d-sm-inline-block">
-                          <img class="avatar-img rounded-circle" src="/static/images/avatar/02.jpg" alt="">
+                      <div
+                        class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative"
+                      >
+                        <div
+                          class="avatar text-center d-none d-sm-inline-block"
+                        >
+                          <img
+                            class="avatar-img rounded-circle"
+                            src="/static/images/avatar/02.jpg"
+                            alt=""
+                          />
                         </div>
                         <div class="ms-sm-3 d-flex">
                           <div>
-                            <p class="small mb-2">Wish <b>Amanda Reed</b> a happy birthday (Nov 12)</p>
-                            <button class="btn btn-sm btn-outline-light py-1 me-2">Say happy birthday 🎂</button>
+                            <p class="small mb-2">
+                              Wish <b>Amanda Reed</b> a happy birthday (Nov 12)
+                            </p>
+                            <button
+                              class="btn btn-sm btn-outline-light py-1 me-2"
+                            >
+                              Say happy birthday 🎂
+                            </button>
                           </div>
                           <p class="small ms-3">2min</p>
                         </div>
@@ -151,13 +232,25 @@
                     </li>
                     <!-- Notif item -->
                     <li>
-                      <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3">
-                        <div class="avatar text-center d-none d-sm-inline-block">
-                          <div class="avatar-img rounded-circle bg-success"><span class="text-white position-absolute top-50 start-50 translate-middle fw-bold">WB</span></div>
+                      <a
+                        href="#"
+                        class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
+                      >
+                        <div
+                          class="avatar text-center d-none d-sm-inline-block"
+                        >
+                          <div class="avatar-img rounded-circle bg-success">
+                            <span
+                              class="text-white position-absolute top-50 start-50 translate-middle fw-bold"
+                              >WB</span
+                            >
+                          </div>
                         </div>
                         <div class="ms-sm-3">
                           <div class="d-flex">
-                            <p class="small mb-2">Webestica has 15 like and 1 new activity</p>
+                            <p class="small mb-2">
+                              Webestica has 15 like and 1 new activity
+                            </p>
                             <p class="small ms-3">1hr</p>
                           </div>
                         </div>
@@ -165,12 +258,25 @@
                     </li>
                     <!-- Notif item -->
                     <li>
-                      <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
-                        <div class="avatar text-center d-none d-sm-inline-block">
-                          <img class="avatar-img rounded-circle" src="/static/images/logo/12.svg" alt="">
+                      <a
+                        href="#"
+                        class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1"
+                      >
+                        <div
+                          class="avatar text-center d-none d-sm-inline-block"
+                        >
+                          <img
+                            class="avatar-img rounded-circle"
+                            src="/static/images/logo/12.svg"
+                            alt=""
+                          />
                         </div>
                         <div class="ms-sm-3 d-flex">
-                          <p class="small mb-2"><b>Bootstrap in the news:</b> The search giant’s parent company, Alphabet, just joined an exclusive club of tech stocks.</p>
+                          <p class="small mb-2">
+                            <b>Bootstrap in the news:</b> The search giant’s
+                            parent company, Alphabet, just joined an exclusive
+                            club of tech stocks.
+                          </p>
                           <p class="small ms-3">4hr</p>
                         </div>
                       </a>
@@ -178,7 +284,9 @@
                   </ul>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="#" class="btn btn-sm btn-primary-soft">See all incoming activity</a>
+                  <a href="#" class="btn btn-sm btn-primary-soft"
+                    >See all incoming activity</a
+                  >
                 </div>
               </div>
             </div>
@@ -186,60 +294,108 @@
           <!-- Notification dropdown END -->
 
           <li class="nav-item ms-2 dropdown" v-if="user_name">
-            <a class="nav-link btn icon-md p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="avatar-img rounded-2" src="/static/images/avatar/07.jpg" alt="">
+            <a
+              class="nav-link btn icon-md p-0"
+              href="#"
+              id="profileDropdown"
+              role="button"
+              data-bs-auto-close="outside"
+              data-bs-display="static"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                class="avatar-img rounded-2"
+                src="/static/images/avatar/07.jpg"
+                alt=""
+              />
             </a>
-            <ul class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3" aria-labelledby="profileDropdown">
+            <ul
+              class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3"
+              aria-labelledby="profileDropdown"
+            >
               <!-- Profile info -->
               <li class="px-3">
                 <div class="d-flex align-items-center position-relative">
                   <!-- Avatar -->
                   <div class="avatar me-3">
-                    <img class="avatar-img rounded-circle" src="/static/images/avatar/07.jpg" alt="avatar">
+                    <img
+                      class="avatar-img rounded-circle"
+                      src="/static/images/avatar/07.jpg"
+                      alt="avatar"
+                    />
                   </div>
                   <div>
-                    <a class="h6 stretched-link" href="#">{{user_name}}</a>
+                    <a class="h6 stretched-link" href="#">{{ user_name }}</a>
                     <p class="small m-0">全栈程序员</p>
                   </div>
                 </div>
-                <a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" href="my-profile.html">个人信息</a>
+                <a
+                  class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center"
+                  href="my-profile.html"
+                  >个人信息</a
+                >
               </li>
               <!-- Links -->
-              <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear fa-fw me-2"></i>设置</a></li>
-              <li> 
-                <a class="dropdown-item" href="http://www.bootstrapmb.com" >
-                  <i class="fa-fw bi bi-life-preserver me-2"></i>支持
-                </a> 
+              <li>
+                <a class="dropdown-item" href="settings.html"
+                  ><i class="bi bi-gear fa-fw me-2"></i>设置</a
+                >
               </li>
-              <li> 
-                <a class="dropdown-item" href="" >
+              <li>
+                <a class="dropdown-item" href="http://www.bootstrapmb.com">
+                  <i class="fa-fw bi bi-life-preserver me-2"></i>支持
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="">
                   <i class="fa-fw bi bi-card-text me-2"></i>文档
-                </a> 
+                </a>
               </li>
               <li class="dropdown-divider"></li>
-              <li><a class="dropdown-item bg-danger-soft-hover" href="" @click="logout"><i class="bi bi-power fa-fw me-2"></i>退出</a></li>
-              <li> <hr class="dropdown-divider"></li>
+              <li>
+                <a
+                  class="dropdown-item bg-danger-soft-hover"
+                  href=""
+                  @click="logout"
+                  ><i class="bi bi-power fa-fw me-2"></i>退出</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
               <!-- Dark mode switch START -->
               <li>
-                <div class="modeswitch-wrap" :data-theme="theme" @click="changeTheme">
+                <div
+                  class="modeswitch-wrap"
+                  :data-theme="theme"
+                  @click="changeTheme"
+                >
                   <div class="modeswitch-item">
                     <div class="modeswitch-icon"></div>
                   </div>
                   <span>夜间模式</span>
                 </div>
-              </li> 
+              </li>
               <!-- Dark mode switch END -->
             </ul>
           </li>
           <!-- Profile START -->
-          
+
           <li class="nav-item ms-2" v-else>
-            <button class="btn btn-sm py-1 btn-outline-primary me-2" data-bs-toggle="modal"
-          data-bs-target="#modalUserLogin">登录</button>
-            <button class="btn btn-sm py-1 btn-outline-primary me-2" data-bs-toggle="modal"
-          data-bs-target="#modalUserRegister">注册</button>
+            <button
+              class="btn btn-sm py-1 btn-outline-primary me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#modalUserLogin"
+            >
+              登录
+            </button>
+            <button
+              class="btn btn-sm py-1 btn-outline-primary me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#modalUserRegister"
+            >
+              注册
+            </button>
           </li>
-          
         </ul>
         <!-- Nav right END -->
       </div>
@@ -249,14 +405,14 @@
 </template>
 
 <script>
-import { logout, userinfo } from "@/api/user.js"  
+import { logout, userinfo } from "@/api/user.js";
 export default {
   name: "HelloWorld",
-  
+
   data() {
     return {
-      user_name: '',
-      theme: 'light'
+      user_name: "",
+      theme: "light"
     };
   },
   methods: {
@@ -302,8 +458,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.navbar-nav a.router-link-exact-active{
-    color: #0f6fec;
+.navbar-nav a.router-link-exact-active {
+  color: #0f6fec;
 }
 </style>

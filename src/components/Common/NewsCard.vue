@@ -2,7 +2,7 @@
   <div class="card">
     <!-- Card header START -->
     <div class="card-header pb-0 border-0">
-      <h5 class="card-title mb-0">Today’s news</h5>
+      <h5 class="card-title mb-0">最新文章</h5>
     </div>
     <!-- Card header END -->
     <!-- Card body START -->
