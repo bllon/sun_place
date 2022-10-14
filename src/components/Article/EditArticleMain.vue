@@ -1,6 +1,18 @@
 <template>
   <!-- **************** MAIN CONTENT START **************** -->
   <main>
+    <div ref="toast" class="toast" aria-atomic="true" data-bs-delay="3000"
+    style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10000;">
+      <div class="toast-header bg-light">
+        <!-- <img src="..." class="rounded me-2" alt="..."> -->
+        <strong class="me-auto">提示</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body bg-light" :class="toast_style">
+        {{toast_message}}
+      </div>
+    </div>
+
     <!-- Container START -->
     <div class="container">
       <div class="row g-4">
@@ -10,19 +22,19 @@
           <div class="card">
             <!-- Title START -->
             <div class="card-header border-0 pb-0">
-              <h1 class="h4 card-title mb-0">发布动态</h1>
+              <h1 class="h4 card-title mb-0">发布文章</h1>
             </div>
             <!-- Title END -->
             <!-- Create a page form START -->
             <div class="card-body">
               <form class="row g-3">
                 <!-- Page information -->
-                <div class="col-6">
+                <div class="col-lg-6">
                   <label class="form-label">标题</label>
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="输入动态标题"
+                    placeholder="输入文章标题"
                     v-model="title"
                   />
                 </div>
@@ -57,21 +69,49 @@
 <script>
 import { article_put } from "@/api/article.js"  
 export default {
-  name: "EditPostsMain",
+  name: "EditArticleMain",
   data() {
     return {
       title:"",
       cherry: null,
+      toast: null,
+      toast_style: "",
+      toast_message: "",
     };
   },
   methods: {
     publish() {
+      if (this.func.isNull(this.title)) {
+        this.toast_style = 'text-warning'
+        this.toast_message = '请填写文章标题'
+        this.toast.show()
+        return;
+      }
+      if (this.func.isNull(this.cherry.getMarkdown())) {
+        this.toast_style = 'text-warning'
+        this.toast_message = '请填写文章内容'
+        this.toast.show()
+        return;
+      }
+
       var params = {};
       params.title = this.title;
       params.content = this.cherry.getHtml();
       const promise = article_put(params);
       promise.then((res) => {
-        alert(res.message);
+        if (res.code == 0) {
+          this.toast_style = 'text-success'
+          this.toast_message = '发布成功, 2s后将跳转至详情页...'
+          this.toast.show()
+          setTimeout(() => {
+            this.$router.push({
+              path : '/article/' + res.data.article_id,
+            })
+          },2000)
+        } else {
+          this.toast_message = res.message
+        }
+        this.toast.show()
       })
 
       console.log(this.cherry.getMarkdown());
@@ -82,9 +122,10 @@ export default {
     }
   },
   mounted() {
+    this.toast = new bootstrap.Toast(this.$refs.toast);
     this.cherry = new Cherry({
       id: "markdown-container",
-      value: "# 开始你的创作吧...",
+      value: "",
       editor: {
         codemirror: {
           // depend on codemirror theme name: https://codemirror.net/demo/theme.html
@@ -160,82 +201,5 @@ export default {
       }
     });
   }
-
-  //纯预览
-  // mounted() {
-  //   this.cherry = new Cherry({
-  //     id: 'markdown-container',
-  // externals: {
-  //   echarts: window.echarts,
-  //   katex: window.katex,
-  //   MathJax: window.MathJax,
-  // },
-  // engine: {
-  //   global: {
-  //     urlProcessor(url, srcType) {
-  //       console.log(`url-processor`, url, srcType);
-  //       return url;
-  //     },
-  //   },
-  //   syntax: {
-  //     fontEmphasis: {
-  //       allowWhitespace: true, // 是否允许首尾空格
-  //     },
-  //     mathBlock: {
-  //       engine: 'MathJax', // katex或MathJax
-  //       src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js', // 如果使用MathJax将js在此处引入，katex则需要将js提前引入
-  //     },
-  //     inlineMath: {
-  //       engine: 'MathJax', // katex或MathJax
-  //     },
-  //     emoji: {
-  //       useUnicode: false,
-  //       customResourceURL: 'https://github.githubassets.com/images/icons/emoji/unicode/${code}.png?v8',
-  //       upperCase: true,
-  //     },
-  //     // toc: {
-  //     //     tocStyle: 'nested'
-  //     // }
-  //     // 'header': {
-  //     //   strict: false
-  //     // }
-  //   },
-  //   // customSyntax: {
-  //   //   // SyntaxHookClass
-  //   //   CustomHook: {
-  //   //     syntaxClass: CustomHookA,
-  //   //     force: false,
-  //   //     after: 'br',
-  //   //   },
-  //   // },
-  // },
-  // toolbars: {
-  //   toolbar: false,
-  // },
-  // editor: {
-  //   defaultModel: 'previewOnly',
-  // },
-  // callback: {
-  //   onClickPreview: function(e) {
-  //     const {target} = e;
-  //     if(target.tagName === 'IMG') {
-  //       console.log('click img', target);
-  //       const tmp = new Viewer(target, {
-  //           button: false,
-  //           navbar: false,
-  //           title: [1, (image, imageData) => `${image.alt.replace(/#.+$/, '')} (${imageData.naturalWidth} × ${imageData.naturalHeight})`],
-  //         });
-  //       tmp.show();
-  //     }
-  //   }
-  // },
-  // previewer: {
-  //   // 自定义markdown预览区域class
-  //   // className: 'markdown'
-  // },
-  // keydown: [],
-  // //extensions: [],
-  //   });
-  // }
 };
 </script>

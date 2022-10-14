@@ -1,16 +1,16 @@
 <template>
     <div>
         <Header></Header>
-        <EditPostsMain></EditPostsMain>
+        <EditArticleMain></EditArticleMain>
     </div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue';
-import EditPostsMain from "@/components/Posts/EditPostsMain"
+import EditArticleMain from "@/components/Article/EditArticleMain"
 export default {
-    components: { Header, EditPostsMain },
-    name: "EditPosts",
+    components: { Header, EditArticleMain },
+    name: "EditArticle",
     data() {
         return {
         };

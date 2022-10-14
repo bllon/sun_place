@@ -7,6 +7,9 @@ const http= axios.create({
   baseURL:process.env.BASE_URL,
   timeout:5000,//响应时间
   withCredentials:true,
+  // validateStatus: (status) => {
+  //   return (status >= 200 && status < 300) || status  == 401; //默认处理机制
+  // }
   // headers:{"Content-Type":"application/json;charset=utf-8"},
 })
  
@@ -36,7 +39,12 @@ http.interceptors.response.use(res=>{
     return Promise.reject(res.data)
   }
 },err=>{
-  return Promise.reject(err)
+  console.log("响应拦截")
+  console.log(err);
+  console.log(err.stauts);
+  console.log(err.code);
+  console.log(err.response);
+  // return Promise.reject(err)
 });
  
 //整体导出

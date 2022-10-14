@@ -37,12 +37,13 @@ export default {
   name: "ArticleMain",
   data() {
     return {
+      article_id:this.$route.params.article_id,
       title:"",
       content:"",
     };
   },
   created(){
-    const promise = article_info(4);
+    const promise = article_info(this.article_id);
     promise.then((res) => {
       this.title = res.data.title
       this.content = res.data.content

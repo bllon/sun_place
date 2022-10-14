@@ -1,13 +1,13 @@
 <template>
   <!-- Card feed item START -->
-  <div class="card">
+  <div class="card" @click="detail(CardData.article_id)">
     <!-- Card header START -->
-    <div class="card-header border-0 pb-0">
+    <div class="card-header border-0 pb-0" style="padding: 0.5rem;">
       <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
           <!-- Avatar -->
           <div class="avatar avatar-story me-2">
-            <a href="#!">
+            <a @click.stop="">
               <img
                 class="avatar-img rounded-circle"
                 src="static/images/avatar/04.jpg"
@@ -19,17 +19,17 @@
           <div>
             <div class="nav nav-divider">
               <h6 class="nav-item card-title mb-0">
-                <a href="#!"> Lori Ferguson </a>
+                <a @click.stop=""> {{CardData.username}} </a>
               </h6>
-              <span class="nav-item small"> 2hr</span>
+              <span class="nav-item small"> {{CardData.update_time | timeago}}</span>
             </div>
-            <p class="mb-0 small">Web Developer at Webestica</p>
+            <p class="mb-0 small">后端开发工程师</p>
           </div>
         </div>
         <!-- Card feed action dropdown START -->
         <div class="dropdown">
           <a
-            href="#"
+            @click.stop=""
             class="text-secondary btn btn-secondary-soft-hover py-1 px-2"
             id="cardFeedAction"
             data-bs-toggle="dropdown"
@@ -43,13 +43,13 @@
             aria-labelledby="cardFeedAction"
           >
             <li>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" @click.stop="">
                 <i class="bi bi-bookmark fa-fw pe-2"></i>收藏</a
               >
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" @click.stop="">
                 <i class="bi bi-flag fa-fw pe-2"></i>举报</a
               >
             </li>
@@ -60,35 +60,38 @@
     </div>
     <!-- Card header END -->
     <!-- Card body START -->
-    <div class="card-body">
+    <div class="card-body" style="padding: 0.5rem;">
+      <h5>
+        {{CardData.title}}
+      </h5>
       <p>
-        I'm thrilled to share that I've completed a graduate certificate course
-        in project management with the president's honor roll.
+        sadgfasgewtegdafgata
       </p>
       <!-- Card img -->
       <!-- <img class="card-img" src="static/images/post/3by2/01.jpg" alt="Post" /> -->
       <!-- Feed react START -->
-      <ul class="nav nav-stack py-3 small">
+      <ul class="nav nav-stack py-0 small">
         <li class="nav-item">
-          <a class="nav-link" href="#!">
-            <i class="bi bi-hand-thumbs-up-fill pe-1"></i>喜欢 (56)</a
-          >
+          <a class="nav-link" @click.stop="" href="#">
+            <i class="bi bi-hand-thumbs-up pe-1"></i>(56)
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#!">
-            <i class="bi bi-chat-fill pe-1"></i>评论 (12)</a
-          >
+          <a class="nav-link" @click.stop="" href="#">
+            <i class="bi bi-chat pe-1"></i>(56)
+          </a>
         </li>
         <!-- Card share action START -->
-        <li class="nav-item dropdown ms-sm-auto">
+        <li class="nav-item dropdown">
           <a
-            class="nav-link mb-0"
-            href="#"
+            class="btn"
+            @click.stop=""
             id="cardShareAction"
             data-bs-toggle="dropdown"
             aria-expanded="false"
+            style="padding:0;"
           >
-            <i class="bi bi-reply-fill flip-horizontal ps-1"></i>分享
+            <i class="bi bi-reply-fill flip-horizontal ps-1"></i>
           </a>
           <!-- Card share action dropdown menu -->
           <ul
@@ -96,13 +99,13 @@
             aria-labelledby="cardShareAction"
           >
             <li>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" @click.stop="">
                 <i class="bi bi-link fa-fw pe-2"></i>复制文章链接</a
               >
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" @click.stop="">
                 <i class="bi bi-pencil-square fa-fw pe-2"></i>分享到文章</a
               >
             </li>
@@ -120,8 +123,16 @@
 <script>
 export default {
   name: "Card",
+  props: ["CardData"],
   data() {
     return {};
+  },
+  methods: {
+    detail(article_id) {
+      this.$router.push({
+        path : '/article/' + article_id,
+      })
+    }
   }
 };
 </script>

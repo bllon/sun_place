@@ -7,7 +7,7 @@
 
 <script>
 import Header from '@/components/Header.vue';
-import ArticleMain from "@/components/Posts/ArticleMain"
+import ArticleMain from "@/components/Article/ArticleMain"
 export default {
   components: { Header, ArticleMain },
   name: "Article",

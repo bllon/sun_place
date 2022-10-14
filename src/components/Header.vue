@@ -6,8 +6,8 @@
       <div class="container">
         <!-- Logo START -->
         <a class="navbar-brand" href="/">
-          <img class="light-mode-item navbar-brand-item" src="static/images/logo.svg" alt="logo">
-          <img class="dark-mode-item navbar-brand-item" src="static/images/logo.svg" alt="logo">
+          <img class="light-mode-item navbar-brand-item" src="/static/images/logo.svg" alt="logo">
+          <img class="dark-mode-item navbar-brand-item" src="/static/images/logo.svg" alt="logo">
         </a>
         <!-- Logo END -->
 
@@ -20,18 +20,27 @@
           </span>
         </button>
 
+        <!-- Responsive navbar toggler -->
+        <button class="navbar-toggler ms-auto bi-search btn btn-light p-0" type="button" data-bs-toggle="collapse" data-bs-target="#searchbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <!-- <span class="navbar-toggler-animation">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span> -->
+        </button>
+
         <!-- Main navbar START -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
 
           <!-- Nav Search START -->
-          <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
+          <!-- <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
             <div class="nav-item w-100">
               <form class="rounded position-relative">
                 <input class="form-control ps-5 bg-light" type="search" placeholder="搜索..." aria-label="Search">
                 <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit"><i class="bi bi-search fs-5"> </i></button>
               </form>
             </div>
-          </div>
+          </div> -->
           <!-- Nav Search END -->
 
           <ul class="navbar-nav navbar-nav-scroll ml-auto">
@@ -54,7 +63,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="postMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">创作</a>
               <ul class="dropdown-menu" aria-labelledby="postMenu">
-                <li> <router-link class="dropdown-item" to="/edit_posts">发布动态</router-link></li>
+                <li> <router-link class="dropdown-item" to="/article/edit">发布动态</router-link></li>
                 <li> <router-link class="dropdown-item" to="/article">分享图片</router-link></li>
                 <li> <a class="dropdown-item" href="create-page.html">分享视频</a></li>
                 <li> <a class="dropdown-item" href="create-page.html">发布投票</a></li>
@@ -71,6 +80,19 @@
 
         <!-- Nav right START -->
         <ul class="nav flex-nowrap align-items-center ms-sm-3 list-unstyled">
+          <div class="collapse navbar-collapse" id="searchbarCollapse">
+            <!-- Nav Search START -->
+            <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
+              <div class="nav-item w-100">
+                <form class="rounded position-relative">
+                  <input class="form-control ps-5 bg-light" type="search" placeholder="搜索..." aria-label="Search">
+                  <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit"><i class="bi bi-search fs-5"> </i></button>
+                </form>
+              </div>
+            </div>
+            <hr>
+            <!-- Nav Search END -->
+          </div>
           <li class="nav-item ms-2" v-if="user_name">
             <a class="nav-link icon-md btn btn-light p-0" href="messaging.html">
               <i class="bi bi-chat-left-text-fill fs-6"> </i>
@@ -98,7 +120,7 @@
                     <li>
                       <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                         <div class="avatar text-center d-none d-sm-inline-block">
-                          <img class="avatar-img rounded-circle" src="static/images/avatar/01.jpg" alt="">
+                          <img class="avatar-img rounded-circle" src="/static/images/avatar/01.jpg" alt="">
                         </div>
                         <div class="ms-sm-3">
                           <div class=" d-flex">
@@ -116,7 +138,7 @@
                     <li>
                       <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative">
                         <div class="avatar text-center d-none d-sm-inline-block">
-                          <img class="avatar-img rounded-circle" src="static/images/avatar/02.jpg" alt="">
+                          <img class="avatar-img rounded-circle" src="/static/images/avatar/02.jpg" alt="">
                         </div>
                         <div class="ms-sm-3 d-flex">
                           <div>
@@ -145,7 +167,7 @@
                     <li>
                       <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
                         <div class="avatar text-center d-none d-sm-inline-block">
-                          <img class="avatar-img rounded-circle" src="static/images/logo/12.svg" alt="">
+                          <img class="avatar-img rounded-circle" src="/static/images/logo/12.svg" alt="">
                         </div>
                         <div class="ms-sm-3 d-flex">
                           <p class="small mb-2"><b>Bootstrap in the news:</b> The search giant’s parent company, Alphabet, just joined an exclusive club of tech stocks.</p>
@@ -165,7 +187,7 @@
 
           <li class="nav-item ms-2 dropdown" v-if="user_name">
             <a class="nav-link btn icon-md p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="avatar-img rounded-2" src="static/images/avatar/07.jpg" alt="">
+              <img class="avatar-img rounded-2" src="/static/images/avatar/07.jpg" alt="">
             </a>
             <ul class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3" aria-labelledby="profileDropdown">
               <!-- Profile info -->
@@ -173,7 +195,7 @@
                 <div class="d-flex align-items-center position-relative">
                   <!-- Avatar -->
                   <div class="avatar me-3">
-                    <img class="avatar-img rounded-circle" src="static/images/avatar/07.jpg" alt="avatar">
+                    <img class="avatar-img rounded-circle" src="/static/images/avatar/07.jpg" alt="avatar">
                   </div>
                   <div>
                     <a class="h6 stretched-link" href="#">{{user_name}}</a>
@@ -249,13 +271,13 @@ export default {
     changeThemeToDark() {
       var style = document.getElementById("style-switch");
       this.theme = "dark";
-      style.setAttribute("href", "static/css/style-dark.css");
+      style.setAttribute("href", "/static/css/style-dark.css");
       localStorage.setItem("data-theme", "dark"); // save theme to local storage
     },
     changeThemeToLight() {
       var style = document.getElementById("style-switch");
       this.theme = "light";
-      style.setAttribute("href", "static/css/style.css");
+      style.setAttribute("href", "/static/css/style.css");
       localStorage.setItem("data-theme", "light"); // save theme to local storage
     },
     logout() {

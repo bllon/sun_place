@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/Index'
 import Resume from '@/components/Tools/Resume/Resume'
-import EditPosts from '@/components/Posts/EditPosts'
-import Article from '@/components/Posts/Article'
+import EditArticle from '@/components/Article/EditArticle'
+import Article from '@/components/Article/Article'
 
 Vue.use(Router)
 
@@ -21,12 +21,12 @@ export default new Router({
       component: Resume
     },
     {
-      path: '/edit_posts',
-      name: 'EditPosts',
-      component: EditPosts
+      path: '/article/edit',
+      name: 'EditArticle',
+      component: EditArticle
     },
     {
-      path: '/article',
+      path: '/article/:article_id',
       name: 'Article',
       component: Article
     },

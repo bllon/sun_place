@@ -10,6 +10,11 @@ Vue.config.productionTip = false
 import func from './utils/func'
 Vue.prototype.func = func;
 
+//全局过滤器
+Vue.filter('timeago', function(value) {
+  return func.timeago(value)
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

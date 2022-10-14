@@ -24,7 +24,7 @@ export function logout() {
     })
 }
 
-export async function register(params) {
+export function register(params) {
     return request({
         url:'user/register',
         method :'post',
