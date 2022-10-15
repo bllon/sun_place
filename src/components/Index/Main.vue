@@ -109,3 +109,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+/* 只在当前页面覆盖此css */
+.container .card{
+  border: none;
+}
+</style>

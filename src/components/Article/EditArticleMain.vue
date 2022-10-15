@@ -1,7 +1,7 @@
 <template>
   <!-- **************** MAIN CONTENT START **************** -->
   <main>
-    <div ref="toast" class="toast" aria-atomic="true" data-bs-delay="3000"
+    <div v-show="toast_message" ref="toast" class="toast" aria-atomic="true" data-bs-delay="3000"
     style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10000;">
       <div class="toast-header bg-light">
         <!-- <img src="..." class="rounded me-2" alt="..."> -->
@@ -14,7 +14,7 @@
     </div>
 
     <!-- Container START -->
-    <div class="container">
+    <div class="container-fulid">
       <div class="row g-4">
         <!-- Main content START -->
         <div class="col-md-12 col-lg-12 vstack gap-4">
@@ -81,6 +81,7 @@ export default {
   },
   methods: {
     publish() {
+      this.func.showLogin()
       if (this.func.isNull(this.title)) {
         this.toast_style = 'text-warning'
         this.toast_message = '请填写文章标题'
@@ -121,7 +122,14 @@ export default {
       this.cherry.setMarkdown(this.prview);
     }
   },
+  created() {
+    
+  },
+  updated() {
+    
+  },
   mounted() {
+    
     this.toast = new bootstrap.Toast(this.$refs.toast);
     this.cherry = new Cherry({
       id: "markdown-container",

@@ -417,24 +417,7 @@ export default {
   },
   methods: {
     changeTheme() {
-      let theme = localStorage.getItem("data-theme"); // Retrieve saved them from local storage
-      if (theme === "dark") {
-        this.changeThemeToLight();
-      } else {
-        this.changeThemeToDark();
-      }
-    },
-    changeThemeToDark() {
-      var style = document.getElementById("style-switch");
-      this.theme = "dark";
-      style.setAttribute("href", "/static/css/style-dark.css");
-      localStorage.setItem("data-theme", "dark"); // save theme to local storage
-    },
-    changeThemeToLight() {
-      var style = document.getElementById("style-switch");
-      this.theme = "light";
-      style.setAttribute("href", "/static/css/style.css");
-      localStorage.setItem("data-theme", "light"); // save theme to local storage
+      this.theme = this.func.changeTheme();
     },
     logout() {
       logout();
@@ -442,12 +425,7 @@ export default {
     }
   },
   mounted() {
-    let theme = localStorage.getItem("data-theme");
-    if (theme === "dark") {
-      this.changeThemeToDark();
-    } else if (theme == null || theme === "light") {
-      this.changeThemeToLight();
-    }
+    this.theme = this.func.getTheme();
   },
   created() {
     this.user_name = this.func.getUserName();

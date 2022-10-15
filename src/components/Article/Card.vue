@@ -2,7 +2,7 @@
   <!-- Card feed item START -->
   <div class="card mt-1" @click="detail($event,CardData.article_id)">
     <!-- Card header START -->
-    <div class="card-header border-0 pb-0" style="padding: 0.5rem;">
+    <div class="card-header border-0 pb-0 px-2 py-2">
       <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
           <!-- Avatar -->
@@ -18,7 +18,7 @@
           <!-- Info -->
           <div>
             <div class="nav nav-divider">
-              <h6 class="nav-item card-title mb-0">
+              <h6 class="nav-item small mb-0">
                 <a @click.stop="" href="#"> {{CardData.username}} </a>
               </h6>
               <span class="nav-item small">后端开发工程师</span>
@@ -68,6 +68,7 @@
         {{CardData.title}}
       </h5>
       <p>
+        sadgfasgewtegdafgatasadgfasgewtegdafgatasadgfasgewtegdafgatasadgfasgewtegdafgata
         sadgfasgewtegdafgata
       </p>
       <!-- Card img -->
@@ -116,7 +117,7 @@
         </li> -->
         <!-- Card share action END -->
 
-
+        
       </ul>
       <!-- Feed react END -->
     </div>

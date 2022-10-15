@@ -1,4 +1,46 @@
 export default {
+    getTheme() {
+        return localStorage.getItem("data-theme");
+    },
+    initTheme() {
+        let theme = localStorage.getItem("data-theme");
+        if (theme === "dark") {
+            return this.changeThemeToDark();
+        } else if (theme == null || theme === "light") {
+            return this.changeThemeToLight();
+        }
+    },
+    changeTheme() {
+        let theme = localStorage.getItem("data-theme"); // Retrieve saved them from local storage
+        if (theme === "dark") {
+          return this.changeThemeToLight();
+        } else {
+          return this.changeThemeToDark();
+        }
+    },
+    changeThemeToDark() {
+        var style = document.getElementById("style-switch");
+        style.setAttribute("href", "/static/css/style-dark.css");
+        localStorage.setItem("data-theme", "dark"); // save theme to local storage
+        return "dark";
+    },
+    changeThemeToLight() {
+        var style = document.getElementById("style-switch");
+        style.setAttribute("href", "/static/css/style.css");
+        localStorage.setItem("data-theme", "light"); // save theme to local storage
+        return "light";
+    },
+    showLogin() {
+        var modalUserLogin = document.getElementById('modalUserLogin');
+        console.log(modalUserLogin);
+        const modal = new bootstrap.Modal(modalUserLogin)
+        modal.show();
+    },
+    showRegister() {
+        var modalUserLogin = document.getElementById('modalUserLogin');
+        const modal = new bootstrap.Modal(modalUserLogin)
+        modal.show();
+    },
     getCookie(c_name) {
         if (document.cookie.length>0){
             let c_start=document.cookie.indexOf(c_name + "=")

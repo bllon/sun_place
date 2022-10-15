@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Header></Header>
         <EditArticleMain></EditArticleMain>
     </div>
 </template>
@@ -13,6 +12,7 @@ export default {
     name: "EditArticle",
     data() {
         return {
+            show_header:false
         };
     }
 };
