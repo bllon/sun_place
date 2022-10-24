@@ -5,30 +5,30 @@ export default {
     initTheme() {
         let theme = localStorage.getItem("data-theme");
         if (theme === "dark") {
-            return this.changeThemeToDark();
+            return this.changeTheme("dark");
         } else if (theme == null || theme === "light") {
-            return this.changeThemeToLight();
+            return this.changeTheme("light");
         }
     },
-    changeTheme() {
-        let theme = localStorage.getItem("data-theme"); // Retrieve saved them from local storage
-        if (theme === "dark") {
-          return this.changeThemeToLight();
-        } else {
-          return this.changeThemeToDark();
+    changeTheme(to_theme = null) {
+        if (to_theme == null) {
+            let theme = localStorage.getItem("data-theme");
+            if (theme === "dark") {
+                to_theme = "light";
+            } else {
+                to_theme = "dark";
+            }
         }
-    },
-    changeThemeToDark() {
-        var style = document.getElementById("style-switch");
-        style.setAttribute("href", "/static/css/style-dark.css");
-        localStorage.setItem("data-theme", "dark"); // save theme to local storage
-        return "dark";
-    },
-    changeThemeToLight() {
-        var style = document.getElementById("style-switch");
-        style.setAttribute("href", "/static/css/style.css");
-        localStorage.setItem("data-theme", "light"); // save theme to local storage
-        return "light";
+        
+        var eleLinks = document.querySelectorAll('link[title]');
+        eleLinks.forEach(function (link) {
+            link.disabled = true;
+            if (link.getAttribute('title') == to_theme) {
+                link.disabled = false;
+            }
+        });
+        localStorage.setItem("data-theme", to_theme);
+        return to_theme;
     },
     getCookie(c_name) {
         if (document.cookie.length>0){
