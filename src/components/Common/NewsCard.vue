@@ -8,64 +8,46 @@
     <!-- Card body START -->
     <div class="card-body">
       <!-- News item -->
-      <div class="mb-3">
+      <div class="mb-3" v-for="(item,index) in article_list" :key="index">
         <h6 class="mb-0">
-          <a href="blog-details.html"
-            >Ten questions you should answer truthfully</a
-          >
+          <router-link :to="'/article/' + item.article_id">{{item.title}}</router-link>
         </h6>
-        <small>2hr</small>
-      </div>
-      <!-- News item -->
-      <div class="mb-3">
-        <h6 class="mb-0">
-          <a href="blog-details.html">Five unbelievable facts about money</a>
-        </h6>
-        <small>3hr</small>
-      </div>
-      <!-- News item -->
-      <div class="mb-3">
-        <h6 class="mb-0">
-          <a href="blog-details.html"
-            >Best Pinterest Boards for learning about business</a
-          >
-        </h6>
-        <small>4hr</small>
-      </div>
-      <!-- News item -->
-      <div class="mb-3">
-        <h6 class="mb-0">
-          <a href="blog-details.html"
-            >Skills that you can learn from business</a
-          >
-        </h6>
-        <small>6hr</small>
+        <small>{{item.update_time | timeago}}</small>
       </div>
       <!-- Load more comments -->
-      <a
-        href="#!"
-        role="button"
+      <router-link to="/article/1" role="button"
         class="btn btn-link btn-link-loader btn-sm text-secondary d-flex align-items-center"
         data-bs-toggle="button"
-        aria-pressed="true"
-      >
+        aria-pressed="true">
         <div class="spinner-dots me-2">
           <span class="spinner-dot"></span>
           <span class="spinner-dot"></span>
           <span class="spinner-dot"></span>
         </div>
-        View all latest news
-      </a>
+        查看更多
+      </router-link>
     </div>
     <!-- Card body END -->
   </div>
 </template>
 
 <script>
+import { article_recent_list } from "@/api/article.js" 
 export default {
   name: "NewsCard",
   data() {
-    return {};
+    return {
+      article_list:[]
+    };
+  },
+  created(){
+    //获取最近文章列表
+    const promise = article_recent_list();
+    promise.then((res) => {
+      if (res && res.code == 0 && res.data != null) {
+        this.article_list = res.data;
+      }
+    })
   }
 };
 </script>

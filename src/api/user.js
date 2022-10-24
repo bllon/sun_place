@@ -32,9 +32,16 @@ export function register(params) {
     })
 }
 
-export function userinfo() {
+export function refresh_token() {
     return request({
-        url:'user/info',
+        url:'refresh_token',
+        method :'get',
+    })
+}
+
+export function userinfo(params) {
+    return request({
+        url:'user/' + params,
         method :'get',
     })
 }

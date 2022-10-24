@@ -1,34 +1,32 @@
 <template>
   <div id="app">
-    <router-view />
-    <div v-if="is_show">
-      <Login></Login>
-      <Register></Register>
-    </div>
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
 <script>
-import Login from "@/components/User/Login"
-import Register from "@/components/User/Register"
 export default {
   name: "App",
-  components: { Login, Register },
   data() {
     return {
-      is_show:false
     };
   },
   beforeMount() {
-    this.func.initTheme();
-    setTimeout(() => {
-      //防止刷新页面闪出
-      this.is_show = true;
-    }, 100)
+    //获取全局登录状态，并设置
+    const token = this.func.getCookie('token'); //有登陆态
+    if (token != "") {
+      this.$store.commit('setLoginStatus', true);
+      this.$store.commit('setUserName', this.func.getUserName());
+      this.$store.commit('setUserId', this.func.getUserId());
+    }
+
+    //获取全局theme
+    const theme = this.func.initTheme();
+    this.$store.commit('setTheme', theme);
   },
-  mounted() {
-    
-  },
+  updated() {
+    // window.scrollTo(0, 0);
+  }
 };
 </script>
 

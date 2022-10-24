@@ -30,17 +30,6 @@ export default {
         localStorage.setItem("data-theme", "light"); // save theme to local storage
         return "light";
     },
-    showLogin() {
-        var modalUserLogin = document.getElementById('modalUserLogin');
-        console.log(modalUserLogin);
-        const modal = new bootstrap.Modal(modalUserLogin)
-        modal.show();
-    },
-    showRegister() {
-        var modalUserLogin = document.getElementById('modalUserLogin');
-        const modal = new bootstrap.Modal(modalUserLogin)
-        modal.show();
-    },
     getCookie(c_name) {
         if (document.cookie.length>0){
             let c_start=document.cookie.indexOf(c_name + "=")
@@ -53,7 +42,34 @@ export default {
             }
         return ""
     },
+    delCookie: (c_name) => {
+        var date=new Date()
+        date.setSeconds(date.getSeconds()-1)
+        document.cookie=c_name+ "="+escape("")+"; expires="+date.toGMTString()
+    },
+    getUserId() {
+        var user_id = this.getCookie('user_id');
+        if (user_id != '') {
+            return user_id
+        }
+        var token = this.getCookie('token');
+        if(token == '') {
+            return '';
+        } else {
+            var arr = token.split(".")
+            if (arr.length < 3) {
+                return '';
+            }
+            let userInfo = decodeURIComponent(escape(window.atob(arr[1].replace(/-/g, "+").replace(/_/g, "/"))));
+            userInfo = JSON.parse(userInfo);
+            return userInfo['user_id'] ? userInfo['user_id'] : '';
+        }
+    },
     getUserName() {
+        var user_name = this.getCookie('user_name');
+        if (user_name != '') {
+            return user_name
+        }
         var token = this.getCookie('token');
         if(token == '') {
             return '';
@@ -67,6 +83,20 @@ export default {
             return userInfo['user_name'] ? userInfo['user_name'] : '';
         }
     },
+    getRefreshToken() {
+        var token = this.getCookie('refresh_token');
+        if(token == '') {
+            return null;
+        } else {
+            var arr = token.split(".")
+            if (arr.length < 3) {
+                return null;
+            }
+            let userInfo = decodeURIComponent(escape(window.atob(arr[1].replace(/-/g, "+").replace(/_/g, "/"))));
+            userInfo = JSON.parse(userInfo);
+            return {token: token, exp: userInfo['exp'] ? userInfo['exp'] : 0};
+        }
+    },
     isNull(str) {
         if (str == "") {
             return true;
@@ -75,7 +105,12 @@ export default {
         return new RegExp(reg).test(str);
     },
     timeago(date){  
-        var dateTimeStamp = Date.parse(date)
+        var dateTimeStamp
+        if (typeof date == 'number') {
+            dateTimeStamp = date
+        } else {
+            dateTimeStamp = Date.parse(date)
+        }
         var result;
         var minute = 1000 * 60;      //把分，时，天，周，半个月，一个月用毫秒表示
         var hour = minute * 60;
@@ -118,6 +153,31 @@ export default {
             var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
             result = Nyear + "-" + Nmonth + "-" + Ndate
         }
+        // console.log(result)
         return result;
+    },
+    toast(msg, text_style = 'warning', delay= 2000) {
+        // var toast_html = '<div class="toast-header bg-light"><strong class="me-auto">提示</strong>' + 
+        // '<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div>' + 
+        // '<div class="toast-body bg-light" class="text-danger">' + msg + '</div>'
+
+        var toast_html = '<div class="d-flex"><div class="toast-body" style="color:#fff;letter-spacing:1px;font-weight:500;">' + msg 
+        + '</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>'
+
+        var toast=document.createElement('div');
+        toast.innerHTML = toast_html
+        toast.className = "toast align-items-center border-0 bg-" + text_style
+        toast.style.position = 'fixed';
+        toast.style.top = '50%';
+        toast.style.left = '50%';
+        toast.style.transform = 'translate(-50%,-50%)';
+        toast.style.zIndex = '10000';
+        toast.setAttribute('aria-atomic', true);
+        toast.setAttribute('aria-data-bs-delay', delay);
+        document.body.appendChild(toast)
+        new bootstrap.Toast(toast).show()
+        setTimeout(()=>{
+            document.body.removeChild(toast)
+        }, delay)
     }
 }

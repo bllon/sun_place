@@ -17,7 +17,7 @@
          <div class="d-flex mb-3">
           <!-- Avatar -->
           <div class="avatar avatar-xs me-2">
-            <img class="avatar-img rounded-circle" src="static/images/avatar/03.jpg" alt="">
+            <img class="avatar-img rounded-circle" src="/static/images/avatar/07.jpg" alt="">
           </div>
           <!-- Feed box  -->
           <form class="w-100">
@@ -78,7 +78,7 @@
         <div class="d-flex mb-3">
           <!-- Avatar -->
           <div class="avatar avatar-xs me-2">
-            <img class="avatar-img rounded-circle" src="static/images/avatar/03.jpg" alt="">
+            <img class="avatar-img rounded-circle" src="static/images/avatar/07.jpg" alt="">
           </div>
           <!-- Feed box  -->
           <form class="w-100">
@@ -130,7 +130,7 @@
        <div class="d-flex mb-3">
         <!-- Avatar -->
         <div class="avatar avatar-xs me-2">
-          <img class="avatar-img rounded-circle" src="static/images/avatar/03.jpg" alt="">
+          <img class="avatar-img rounded-circle" src="static/images/avatar/07.jpg" alt="">
         </div>
         <!-- Feed box  -->
         <form class="w-100">
@@ -222,15 +222,6 @@
               </li>
               <li class="avatar avatar-xs">
                 <img class="avatar-img rounded-circle" src="static/images/avatar/02.jpg" alt="avatar">
-              </li>
-              <li class="avatar avatar-xs">
-                <img class="avatar-img rounded-circle" src="static/images/avatar/03.jpg" alt="avatar">
-              </li>
-              <li class="avatar avatar-xs">
-                <img class="avatar-img rounded-circle" src="static/images/avatar/04.jpg" alt="avatar">
-              </li>
-              <li class="avatar avatar-xs">
-                <img class="avatar-img rounded-circle" src="static/images/avatar/05.jpg" alt="avatar">
               </li>
               <li class="avatar avatar-xs">
                 <img class="avatar-img rounded-circle" src="static/images/avatar/06.jpg" alt="avatar">

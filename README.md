@@ -14,8 +14,9 @@ npm run dev
 # build for production with minification
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# 技术要点
+> * #### vuex全局登录状态管理
+> * #### axios发送请求及拦截重试
+> * #### 双token身份验证及刷新
+> * #### tencent cherry-markdown文档编辑器
+> * #### 登录注册,消息提示等组件全局动态创建及销毁

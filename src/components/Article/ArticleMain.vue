@@ -2,7 +2,7 @@
   <!-- **************** MAIN CONTENT START **************** -->
   <main>
     <!-- Container START -->
-    <div class="container">
+    <div class="container" v-if="title">
       <div class="row g-4">
         <!-- Main content START -->
         <div class="col-md-12 col-lg-12 vstack gap-4">
@@ -19,29 +19,33 @@
               <div class="d-flex align-items-center">
                 <!-- Avatar -->
                 <div class="avatar me-2 mx-2">
-                  <a href="#!">
-                    <img
+                  <router-link :to="'/user/' + user_id"><img
                       class="avatar-img rounded-circle"
                       src="/static/images/avatar/07.jpg"
                       alt=""
-                    />
-                  </a>
+                    /></router-link>
                 </div>
                 <!-- Info -->
                 <div>
                   <div class="nav nav-divider">
                     <h6 class="nav-item card-title mb-0">
-                      <a href="#!"> {{ username }} </a>
+                      <router-link :to="'/user/' + user_id">{{ user_name }}</router-link>
                     </h6>
                     <span class="nav-item small">
                       {{ update_time | timeago }}</span
                     >
                   </div>
-                  <p class="mb-0 small">Web Developer at Webestica</p>
+                  <p class="mb-0 small">后端开发工程师</p>
                 </div>
               </div>
               <!-- Card feed action dropdown START -->
               <div class="dropdown me-2">
+                <router-link
+                  v-if="this.$store.state.user_name == user_name"
+                  class="nav-link icon-md btn btn-light p-0"
+                  :to="'/article/' + article_id + '/edit'"
+                  >编辑</router-link
+                >
                 <a
                   href="#"
                   class="text-secondary btn btn-secondary-soft-hover py-1 px-2"
@@ -58,29 +62,28 @@
                 >
                   <li>
                     <a class="dropdown-item" href="#">
-                      <i class="bi bi-bookmark fa-fw pe-2"></i>Save post</a
+                      <i class="bi bi-bookmark fa-fw pe-2"></i>收藏</a
                     >
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">
-                      <i class="bi bi-person-x fa-fw pe-2"></i>Unfollow lori
-                      ferguson
+                      <i class="bi bi-person-x fa-fw pe-2"></i>关注
                     </a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">
-                      <i class="bi bi-x-circle fa-fw pe-2"></i>Hide post</a
+                      <i class="bi bi-x-circle fa-fw pe-2"></i>不喜欢</a
                     >
                   </li>
-                  <li>
+                  <!-- <li>
                     <a class="dropdown-item" href="#">
                       <i class="bi bi-slash-circle fa-fw pe-2"></i>Block</a
                     >
                   </li>
-                  <li><hr class="dropdown-divider" /></li>
+                  <li><hr class="dropdown-divider" /></li> -->
                   <li>
                     <a class="dropdown-item" href="#">
-                      <i class="bi bi-flag fa-fw pe-2"></i>Report post</a
+                      <i class="bi bi-flag fa-fw pe-2"></i>举报</a
                     >
                   </li>
                 </ul>
@@ -99,18 +102,27 @@
           <!-- Create a page END -->
           <!-- Feed react START -->
           <ul class="nav nav-stack flex-wrap small mb-3 mx-2">
-            <li class="nav-item">
-              <a class="nav-link" href="#!">
-                <i class="bi bi-hand-thumbs-up-fill pe-1"></i>(56)</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#!">
-                <i class="bi bi-chat-fill pe-1"></i>(12)</a
+            <!-- <li class="nav-item">
+              <a class="nav-link btn" > <i class="bi bi-eye pe-1"></i>{{pv}}</a>
+            </li> -->
+            <li class="nav-item me-2">
+              <a
+                class="nav-link btn btn-light p-0"
+                :class="{ 'text-primary': is_like }"
+                @click="like()"
+                ><i
+                  class="bi pe-1"
+                  :class="[
+                    is_like
+                      ? 'bi-hand-thumbs-up-fill text-primary'
+                      : 'bi-hand-thumbs-up'
+                  ]"
+                ></i
+                >({{ like_num }})</a
               >
             </li>
             <!-- Card share action START -->
-            <li class="nav-item dropdown ms-sm-auto">
+            <li class="nav-item dropdown">
               <a
                 class="nav-link mb-0"
                 href="#"
@@ -118,20 +130,19 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i class="bi bi-reply-fill flip-horizontal ps-1"></i>(3)
+                <i class="bi bi-reply-fill flip-horizontal ps-1"></i>
               </a>
               <!-- Card share action dropdown menu -->
               <ul
-                class="dropdown-menu dropdown-menu-end"
+                class="dropdown-menu dropdown-menu-start"
                 aria-labelledby="cardShareAction"
               >
                 <li>
                   <a class="dropdown-item" href="#">
-                    <i class="bi bi-envelope fa-fw pe-2"></i>Send via Direct
-                    Message</a
+                    <i class="bi bi-envelope fa-fw pe-2"></i>分享链接</a
                   >
                 </li>
-                <li>
+                <!-- <li>
                   <a class="dropdown-item" href="#">
                     <i class="bi bi-bookmark-check fa-fw pe-2"></i>Bookmark
                   </a>
@@ -152,16 +163,16 @@
                     <i class="bi bi-pencil-square fa-fw pe-2"></i>Share to News
                     Feed</a
                   >
-                </li>
+                </li> -->
               </ul>
             </li>
             <!-- Card share action END -->
           </ul>
           <!-- Feed react END -->
           <!-- Comments START -->
-          <div class="card">
+          <div class="card" id="comment">
             <div class="card-header pb-0 border-0">
-              <h4>5 条评论</h4>
+              <h4>{{ comment_num }} 条评论</h4>
             </div>
             <div class="card-body">
               <!-- Comments START -->
@@ -178,200 +189,176 @@
                   </a>
                 </div>
                 <!-- Comment box  -->
-                <form class="position-relative w-100">
+                <form class="position-relative w-75">
                   <textarea
                     class="form-control pe-4 bg-light"
                     data-autoresize
                     rows="1"
-                    placeholder="Add a comment..."
+                    placeholder="发布评论..."
+                    v-model="comment_content"
                   ></textarea>
                   <!-- Emoji button -->
                   <div class="position-absolute top-0 end-0">
-                    <button class="btn" type="button">🙂</button>
+                    <button class="btn" type="button">
+                      🙂
+                    </button>
                   </div>
                 </form>
+                <div class="d-flex">
+                  <button
+                    class="icon-md btn text-primary p-0"
+                    type="button"
+                    @click="add_comment"
+                  >
+                    发布
+                  </button>
+                </div>
               </div>
+              <div ref="new_comment"></div>
               <!-- Comment wrap START -->
               <ul class="comment-wrap list-unstyled py-3">
-                <!-- Comment item START -->
-                <li class="comment-item">
-                  <div class="d-flex position-relative">
-                    <!-- Avatar -->
-                    <div class="avatar avatar-xs">
-                      <a href="#!"
-                        ><img
-                          class="avatar-img rounded-circle"
-                          src="/static/images/avatar/05.jpg"
-                          alt=""
-                      /></a>
-                    </div>
-                    <div class="ms-2">
-                      <!-- Comment by -->
-                      <div class="bg-light rounded-start-top-0 p-3 rounded">
-                        <div class="d-flex justify-content-between">
-                          <h6 class="mb-1">
-                            <a href="#!"> Frances Guerrero </a>
-                          </h6>
-                          <small class="ms-2">5hr</small>
-                        </div>
-                        <p class="small mb-0">
-                          Removed demands expense account in outward tedious do.
-                          Particular way thoroughly unaffected projection.
-                        </p>
-                      </div>
-                      <!-- Comment react -->
-                      <ul class="nav nav-divider py-2 small">
-                        <li class="nav-item">
-                          <a class="nav-link" href="#!"> Like (3)</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#!"> Reply</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#!"> View 5 replies</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- Comment item nested START -->
-                  <ul class="comment-item-nested list-unstyled">
-                    <!-- Comment item START -->
-                    <li class="comment-item">
-                      <div class="d-flex">
-                        <!-- Avatar -->
-                        <div class="avatar avatar-xs">
-                          <a href="#!"
-                            ><img
-                              class="avatar-img rounded-circle"
-                              src="/static/images/avatar/06.jpg"
-                              alt=""
-                          /></a>
-                        </div>
-                        <!-- Comment by -->
-                        <div class="ms-2">
-                          <div class="bg-light p-3 rounded">
-                            <div class="d-flex justify-content-between">
-                              <h6 class="mb-1">
-                                <a href="#!"> Lori Stevens </a>
-                              </h6>
-                              <small class="ms-2">2hr</small>
-                            </div>
-                            <p class="small mb-0">
-                              See resolved goodness felicity shy civility
-                              domestic had but Drawings offended yet answered
-                              Jennings perceive.
-                            </p>
-                          </div>
-                          <!-- Comment react -->
-                          <ul class="nav nav-divider py-2 small">
-                            <li class="nav-item">
-                              <a class="nav-link" href="#!"> Like (5)</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" href="#!"> Reply</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- Comment item END -->
-                    <!-- Comment item START -->
-                    <li class="comment-item">
-                      <div class="d-flex">
-                        <!-- Avatar -->
-                        <div class="avatar avatar-story avatar-xs">
-                          <a href="#!"
-                            ><img
-                              class="avatar-img rounded-circle"
-                              src="/static/images/avatar/07.jpg"
-                              alt=""
-                          /></a>
-                        </div>
-                        <!-- Comment by -->
-                        <div class="ms-2">
-                          <div class="bg-light p-3 rounded">
-                            <div class="d-flex justify-content-between">
-                              <h6 class="mb-1">
-                                <a href="#!"> Billy Vasquez </a>
-                              </h6>
-                              <small class="ms-2">15min</small>
-                            </div>
-                            <p class="small mb-0">
-                              Wishing calling is warrant settled was lucky.
-                            </p>
-                          </div>
-                          <!-- Comment react -->
-                          <ul class="nav nav-divider py-2 small">
-                            <li class="nav-item">
-                              <a class="nav-link" href="#!"> Like</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" href="#!"> Reply</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- Comment item END -->
-                  </ul>
-                  <!-- Load more replies -->
-                  <a
-                    href="#!"
-                    role="button"
-                    class="btn btn-link btn-link-loader btn-sm text-secondary d-flex align-items-center mb-3 ms-5"
-                    data-bs-toggle="button"
-                    aria-pressed="true"
-                  >
-                    <div class="spinner-dots me-2">
-                      <span class="spinner-dot"></span>
-                      <span class="spinner-dot"></span>
-                      <span class="spinner-dot"></span>
-                    </div>
-                    Load more replies
-                  </a>
-                  <!-- Comment item nested END -->
-                </li>
-                <!-- Comment item END -->
-                <!-- Comment item START -->
-                <li class="comment-item">
+                <li
+                  class="comment-item mb-4"
+                  v-for="(item, index) in comment_list"
+                  :key="index"
+                >
                   <div class="d-flex">
                     <!-- Avatar -->
                     <div class="avatar avatar-xs">
-                      <a href="#!"
-                        ><img
+                      <router-link :to="'/user/' + item.user_id"><img
                           class="avatar-img rounded-circle"
-                          src="/static/images/avatar/05.jpg"
+                          src="/static/images/avatar/07.jpg"
                           alt=""
-                      /></a>
+                      /></router-link>
                     </div>
                     <!-- Comment by -->
-                    <div class="ms-2">
-                      <div class="bg-light p-3 rounded">
-                        <div class="d-flex justify-content-between">
+                    <div class="ms-2" ref="comment">
+                      <div class="pe-3 pb-2 rounded">
+                        <div class="d-flex">
                           <h6 class="mb-1">
-                            <a href="#!"> Frances Guerrero </a>
+                            <router-link class="small" :to="'/user/' + item.user_id">{{ item.user_name }}</router-link>
                           </h6>
-                          <small class="ms-2">4min</small>
+                          <small class="ms-2">{{
+                            item.create_time | timeago
+                          }}</small>
                         </div>
                         <p class="small mb-0">
-                          Removed demands expense account in outward tedious do.
-                          Particular way thoroughly unaffected projection.
+                          {{ item.content }}
                         </p>
                       </div>
                       <!-- Comment react -->
-                      <ul class="nav nav-divider pt-2 small">
-                        <li class="nav-item">
-                          <a class="nav-link" href="#!"> Like (1)</a>
+                      <ul class="nav nav-divider small">
+                        <li class="me-3">
+                          <a
+                            class="nav-link btn btn-sm btn-light p-0"
+                            :class="{ 'text-primary': item.is_like }"
+                            @click="comment_like(item)"
+                            ><i
+                              class="bi pe-1"
+                              :class="[
+                                item.is_like
+                                  ? 'bi-hand-thumbs-up-fill text-primary'
+                                  : 'bi-hand-thumbs-up'
+                              ]"
+                            ></i
+                            >({{ item.like_num }})</a
+                          >
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#!"> Reply</a>
+                        <li class="me-3">
+                          <a
+                            class="nav-link btn btn-sm btn-light p-0"
+                            @click="reply_comment_view(index, item.comment_id)"
+                            ><i class="bi bi-chat pe-1"></i
+                          >({{
+                              item.comment_num
+                            }})</a>
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#!"> View 6 replies</a>
+                        <li class="me-3">
+                          <router-link
+                            class="nav-link btn btn-sm btn-light p-0"
+                            to=""
+                            ><i
+                              class="bi bi-reply-fill flip-horizontal ps-1"
+                            ></i
+                          ></router-link>
                         </li>
                       </ul>
                     </div>
                   </div>
+
+                  <!-- Comment item nested START -->
+                  <ul class="comment-item-nested list-unstyled ps-4" v-if="item.child">
+                      <!-- Comment item START -->
+                      <li class="comment-item mt-3" v-for="(child_item, child_index) in item.child"
+                  :key="child_index">
+                        <div class="d-flex">
+                          <!-- Avatar -->
+                          <div class="avatar avatar-xs">
+                            <router-link :to="'/user/' + child_item.user_id"><img
+                                class="avatar-img rounded-circle"
+                                src="/static/images/avatar/07.jpg"
+                                alt=""
+                            /></router-link>
+                          </div>
+                          <!-- Comment by -->
+                          <div class="ms-2" :ref="'child_comment' + index">
+                            <div class="pe-3 pb-2 rounded">
+                              <div class="d-flex justify-content-between">
+                                <h6 class="mb-1"> 
+                                  <router-link class="small" :to="'/user/' + child_item.user_id">{{ child_item.user_name }}</router-link>
+                                </h6>
+                                <small class="ms-2">{{
+                            child_item.create_time | timeago
+                          }}</small>
+                              </div>
+                              <p class="small mb-0">{{ child_item.content }}</p>
+                              <p v-if="child_item.from_user" class="small mb-0 text-truncate" style="width:180px;">回复 {{child_item.from_user}} 
+                                <small class="ps-1">{{child_item.from_content}}</small>
+                              </p>
+                            </div>
+                            <!-- Comment react -->
+                            <ul class="nav nav-divider small">
+                              <li class="me-3">
+                                <a
+                                  class="nav-link btn btn-sm btn-light p-0"
+                                  :class="{ 'text-primary': child_item.is_like }"
+                                  @click="comment_like(child_item)"
+                                  ><i
+                                    class="bi pe-1"
+                                    :class="[
+                                      child_item.is_like
+                                        ? 'bi-hand-thumbs-up-fill text-primary'
+                                        : 'bi-hand-thumbs-up'
+                                    ]"
+                                  ></i
+                                  >({{ child_item.like_num }})</a
+                                >
+                              </li>
+                              <li class="me-3">
+                                <a
+                                  class="nav-link btn btn-sm btn-light p-0"
+                                  @click="reply_comment_view(child_index, child_item.comment_id, 1, index)"
+                                  ><i class="bi bi-chat pe-1"></i
+                                >({{
+                                    child_item.comment_num
+                                  }})</a>
+                              </li>
+                              <li class="me-3">
+                                <router-link
+                                  class="nav-link btn btn-sm btn-light p-0"
+                                  to=""
+                                  ><i
+                                    class="bi bi-reply-fill flip-horizontal ps-1"
+                                  ></i
+                                ></router-link>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <!-- Comment item END -->
+                    </ul>
+                    <!-- Comment item nested END -->
                 </li>
                 <!-- Comment item END -->
               </ul>
@@ -388,26 +375,222 @@
 </template>
 
 <script>
-import { article_info } from "@/api/article.js";
+import Error404 from "../Error/Error404.vue";
+import Error500 from "../Error/Error500.vue";
+
+import {
+  article_info,
+  article_like_save,
+  article_like_cancel,
+  article_add_comment,
+  article_comment_list,
+  comment_like_save,
+  comment_like_cancel
+} from "@/api/article.js";
 export default {
   name: "ArticleMain",
   data() {
     return {
       article_id: this.$route.params.article_id,
-      username: "",
+      user_id: "",
+      user_name: "",
+      comment_content: "",
       update_time: "",
       title: "",
-      content: ""
+      content: "",
+      is_like: false,
+      pv: 0,
+      like_num: 0,
+      comment_num: 0,
+      comment_list: [],
+
+      reply_comment_box: null,
     };
   },
+  methods: {
+    like() {
+      if (this.$store.state.is_login == false) {
+        this.$create('login').show()
+        return;
+      }
+
+      if (this.is_like) {
+        this.like_num--;
+        const promise = article_like_cancel({ article_id: this.article_id });
+        promise.then(res => {
+          if (res.code == 0) {
+          }
+        });
+      } else {
+        this.like_num++;
+        const promise = article_like_save({ article_id: this.article_id });
+        promise.then(res => {
+          if (res.code == 0) {
+          }
+        });
+      }
+      this.is_like = !this.is_like;
+      this.$forceUpdate();
+    },
+    add_comment() {
+      if (!this.$store.state.is_login) {
+        this.$create('login').show()
+        return;
+      }
+      
+      if (this.func.isNull(this.comment_content)) {
+        this.$toast({
+          message: "请输入评论内容",
+          text_style: "warning"
+        }).show();
+        return;
+      }
+
+      const promise = article_add_comment({
+        article_id: this.article_id,
+        content: this.comment_content,
+        reply_id: 0
+      });
+      promise.then(res => {
+        if (res) {
+          if (res.code == 0) {
+            //加入新评论
+            let commentItem = this.$create('CommentItem', {
+              user_id: this.$store.state.user_id, 
+              user_name: this.$store.state.user_name,
+              content: this.comment_content,
+              create_time: new Date().getTime(),
+            })
+            this.$refs.new_comment.append(commentItem.$el)
+
+            this.comment_content = "";
+            this.$toast({ message: "发布成功", text_style: "success" }).show();
+            return;
+          } else {
+            this.$toast({ message: res.msg, text_style: "danger" }).show();
+            return;
+          }
+        }
+      });
+    },
+    reply_comment_view(index, comment_id, level = 0, parent_index = 0){
+      if (this.$store.state.is_login == false) {
+        this.$create('login').show()
+        return;
+      }
+      if (this.reply_comment_box && this.reply_comment_box.show != false) {
+        this.reply_comment_box.close();
+      }
+      if (level == 0) {
+        this.reply_comment_box = this.$create('addComment', {
+          parent: this.$refs.comment[index], 
+          id: this.article_id, to: comment_id, 
+        });
+        this.$refs.comment[index].append(this.reply_comment_box.$el)
+      } else {
+        //回复子评论
+        this.reply_comment_box = this.$create('addComment', {parent: this.$refs['child_comment' + parent_index][index], id: this.article_id, to: comment_id});
+        this.$refs['child_comment' + parent_index][index].append(this.reply_comment_box.$el)
+      }
+      //注册事件
+      this.reply_comment_box.$on('add_new_comment_component', this.add_new_comment_component);
+    },
+    add_new_comment_component(content) {
+      //加入新评论
+      let commentItem = this.$create('CommentItem', {
+        user_id: this.$store.state.user_id, 
+        user_name: this.$store.state.user_name,
+        content: content,
+        create_time: new Date().getTime(),
+      })
+      this.$refs.new_comment.append(commentItem.$el)
+    },
+    comment_like(item) {
+      if (this.$store.state.is_login == false) {
+        this.$create('login').show()
+        return;
+      }
+
+      if (item.is_like) {
+        item.like_num--;
+        const promise = comment_like_cancel({comment_id: item.comment_id});
+        promise.then((res) => {
+          if (res) {
+            
+          }
+        })
+      } else {
+        item.like_num++;
+        const promise = comment_like_save({comment_id: item.comment_id});
+        promise.then((res) => {
+          if (res) {
+            
+          }
+        })
+      }
+
+      item.is_like = !item.is_like;
+      this.$forceUpdate();
+
+    }
+  },
   created() {
-    const promise = article_info(this.article_id);
-    promise.then(res => {
-      this.title = res.data.title;
-      this.content = res.data.content;
-      this.username = res.data.username;
-      this.update_time = res.data.update_time;
+    //获取文章详情
+    article_info(this.article_id).then(res => {
+      // console.log(res)
+      if (res) {
+        if (res.code == 0) {
+          this.title = res.data.title;
+          this.content = res.data.content;
+          this.user_id = res.data.user_id;
+          this.user_name = res.data.user_name;
+          this.pv = res.data.pv;
+          this.like_num = res.data.like_num;
+          this.comment_num = res.data.comment_num;
+          this.is_like = res.data.is_like;
+          this.update_time = res.data.update_time;
+        } else {
+          this.$router.push({
+            path: "/article/" + this.article_id,
+            name: "Error404",
+            components: Error404
+          });
+        }
+      } else {
+        this.$router.push({
+          path: "/article/" + this.article_id,
+          name: "Error500",
+          components: Error500
+        });
+      }
     });
+
+    //获取评论
+    article_comment_list({ article_id: this.article_id }).then(res => {
+      if (res) {
+        if (res.code == 0) {
+          this.comment_list = res.data;
+        }
+      }
+    });
+
+    //过1分钟增加阅读量
+  },
+  updated() {
+    //锚点
+    if (this.$route.hash) {
+      const el = document.querySelector(this.$route.hash);
+      if (el) {
+        el.scrollIntoView();
+      }
+    }
   }
 };
 </script>
+<style scoped>
+/* 只在当前页面覆盖此css */
+.btn-light {
+  background: none;
+  border: none;
+}
+</style>

@@ -3,7 +3,7 @@
     <!-- Modal create events START -->
     <div
       class="modal"
-      id="modalUserLogin"
+      ref="loginModel"
       tabindex="-1"
       aria-labelledby="modalLabelUserLogin"
       data-bs-backdrop="static"
@@ -28,12 +28,12 @@
             <!-- Form START -->
             <form class="row g-4 needs-validation" ref="loginForm">
               <div class="col-12">
-                <label class="form-label">用户名</label>
+                <!-- <label class="form-label">用户名</label> -->
                 <input
                   type="text"
                   class="form-control"
-                  placeholder=""
-                  v-model="form.username"
+                  placeholder="用户名"
+                  v-model="form.user_name"
                   required
                   pattern="^[a-zA-Z][a-zA-Z0-9_]{4,15}$"
                   title="字母开头，允许5-16字节，允许字母数字下划线"
@@ -43,11 +43,11 @@
                 </div>
               </div>
               <div class="col-12">
-                <label class="form-label">密码</label>
+                <!-- <label class="form-label">密码</label> -->
                 <input
                   type="password"
                   class="form-control"
-                  placeholder=""
+                  placeholder="密码"
                   v-model="form.password"
                   required
                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$"
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       form: {
-        username: "admin111",
+        user_name: "admin111",
         password: "Aadmin1234",
       }
     };
@@ -94,11 +94,13 @@ export default {
         //调用登录api
         const promise = login(this.form)
         promise.then((res) => {
-          if (res.code != 0) {
-            form.classList.add('was-validated')
-            alert(res.message);
-          } else {
-            location.reload();
+          if (res) {
+            if (res.code == 0) {
+              location.reload();
+            } else {
+              form.classList.add('was-validated')
+              this.$toast({message: res.msg, text_style: "danger"}).show()
+            }
           }
         })   
       } else {
@@ -108,6 +110,12 @@ export default {
     closeLoginModal() {
       this.form = this.$options.data().form;
       this.$refs.loginForm.classList.remove('was-validated')
+      this.remove();
+    },
+    show() {
+      var modalUserLogin = this.$refs.loginModel;
+      const modal = new bootstrap.Modal(modalUserLogin)
+      modal.show();
     }
   }
 };

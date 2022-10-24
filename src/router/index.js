@@ -4,11 +4,20 @@ import Index from '@/components/Index'
 import Resume from '@/components/Tools/Resume/Resume'
 import EditArticle from '@/components/Article/EditArticle'
 import Article from '@/components/Article/Article'
+import Error404 from '@/components/Error/Error404'
+import Error500 from '@/components/Error/Error500'
+import Profile from '@/components/User/Profile'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  // scrollBehavior () {
+  //   return {
+  //     x: 0,
+  //     y: 0
+  //   }
+  // },
   routes: [
     {
       path: '/',
@@ -20,8 +29,15 @@ export default new Router({
       name: 'Resume',
       component: Resume
     },
+
+    //文章路由
     {
-      path: '/article/edit',
+      path: '/article/new',
+      name: 'EditArticle',
+      component: EditArticle
+    },
+    {
+      path: '/article/:article_id/edit',
       name: 'EditArticle',
       component: EditArticle
     },
@@ -29,6 +45,45 @@ export default new Router({
       path: '/article/:article_id',
       name: 'Article',
       component: Article
+    },
+    {
+      path: '/article/:article_id',
+      name: 'Error404',
+      component: Error404
+    },
+    {
+      path: '/article/:article_id',
+      name: 'Error500',
+      component: Error500
+    },
+
+    //用户路由
+    {
+      path: '/user/:user_id',
+      name: 'Profile',
+      component: Profile
+    },
+    {
+      path: '/user/:user_id',
+      name: 'Error404',
+      component: Error404
+    },
+    {
+      path: '/user/:user_id',
+      name: 'Error500',
+      component: Error500
+    },
+
+    //404
+    {
+      path: '*',
+      name: 'Error404',
+      component: Error404
+    },
+    {
+      path: '*',
+      name: 'Error500',
+      component: Error500
     },
   ]
 })

@@ -3,7 +3,7 @@
     <!-- Modal create events START -->
     <div
       class="modal"
-      id="modalUserRegister"
+      ref="registerModel"
       tabindex="-1"
       aria-labelledby="modalLabelUserRegister"
       data-bs-backdrop="static"
@@ -20,6 +20,7 @@
               class="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              ref="closeRegiser"
               @click="closeRegisterModal"
             ></button>
           </div>
@@ -29,12 +30,11 @@
             <!-- Form START -->
             <form class="row g-4 needs-validation" ref="registerForm">
               <div class="col-12">
-                <label class="form-label">用户名</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder=""
-                  v-model="form.username"
+                  placeholder="用户名"
+                  v-model="form.user_name"
                   required
                   pattern="^[a-zA-Z][a-zA-Z0-9_]{4,15}$"
                   title="字母开头，允许5-16字节，允许字母数字下划线"
@@ -44,11 +44,10 @@
                 </div>
               </div>
               <div class="col-12">
-                <label class="form-label">密码</label>
                 <input
-                  type="text"
+                  type="password"
                   class="form-control"
-                  placeholder=""
+                  placeholder="密码"
                   v-model="form.password"
                   required
                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$"
@@ -59,11 +58,10 @@
                 </div>
               </div>
               <div class="col-12">
-                <label class="form-label">确认密码</label>
                 <input
                   type="password"
                   class="form-control"
-                  placeholder=""
+                  placeholder="确认密码"
                   v-model="form.confirm_password"
                   required
                 />
@@ -96,7 +94,7 @@ export default {
   data() {
     return {
       form: {
-        username: "",
+        user_name: "",
         password: "",
         confirm_password: "",
       }
@@ -109,7 +107,16 @@ export default {
         //调用注册api
         const promise = register(this.form)
         promise.then((res) => {
-          alert(res.message)
+          if (res) {
+            if (res.code == 0) {
+              //打开登录
+              this.$toast({message: "注册成功", text_style: "success", duration: 2000}).show()
+              this.$refs.closeRegiser.click();
+              this.$create('login').show()
+            } else {
+              this.$toast({message: res.msg, text_style: "danger"}).show()
+            }
+          }
         })   
       } else {
         form.classList.add('was-validated')
@@ -118,6 +125,12 @@ export default {
     closeRegisterModal() {
       this.form = this.$options.data().form;
       this.$refs.registerForm.classList.remove('was-validated')
+      this.remove();
+    },
+    show() {
+      var modalUserRegister = this.$refs.registerModel;
+      const modal = new bootstrap.Modal(modalUserRegister)
+      modal.show();
     }
   }
 };

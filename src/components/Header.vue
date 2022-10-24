@@ -40,40 +40,16 @@
           <ul class="navbar-nav navbar-nav-scroll ml-auto">
             <!-- Nav item 1 Demos -->
             <li class="nav-item">
-              <!-- <a class="nav-link active" href="/" id="homeMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">首页</a> -->
               <router-link class="nav-link" to="/">首页</router-link>
             </li>
-            <!-- Nav item 2 Pages -->
-            <!-- <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="pagesMenu"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                >应用</a
-              >
-              <ul class="dropdown-menu" aria-labelledby="pagesMenu">
-                <li>
-                  <router-link class="dropdown-item" to="/resume"
-                    >简历助手</router-link
-                  >
-                </li>
-                <li>
-                  <router-link class="dropdown-item" to="/resume"
-                    >在线云盘</router-link
-                  >
-                </li>
-                <li>
-                  <router-link class="dropdown-item" to="/resume"
-                    >投票</router-link
-                  >
-                </li>
-              </ul>
+            <!-- <li class="nav-item">
+              <router-link class="nav-link" to="/">简历助手</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">我的题库</router-link>
             </li> -->
             <li class="nav-item">
-              <router-link class="nav-link" to="/article/edit">发布文章</router-link>
+              <router-link class="nav-link" to="/article/new">发布文章</router-link>
             </li>
           </ul>
           <transition
@@ -90,22 +66,19 @@
         <ul class="nav flex-nowrap align-items-center ms-sm-3 list-unstyled">
           
           <li class="nav-item ms-2 dropdown nav-search">
-            <a
-              class="nav-link btn icon-md p-0"
-              href="#"
+            <router-link class="nav-link btn icon-md p-0"
+              to="/"
               id="searchDropdown"
               role="button"
               data-bs-auto-close="outside"
               data-bs-display="static"
               data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+              aria-expanded="false">
               <i class="bi bi-search fs-5"> </i>
-            </a>
+            </router-link>
             <div
               class="dropdown-menu dropdown-animation dropdown-menu-start p-3 small"
               aria-labelledby="searchDropdown"
-              style="left:0;right:0;width:auto;"
             >
               <!-- Profile info -->
               <div class="nav flex-nowrap align-items-center">
@@ -114,7 +87,7 @@
                     <input
                       class="form-control ps-5 bg-light"
                       type="search"
-                      placeholder="Search..."
+                      placeholder="搜索..."
                       aria-label="Search"
                     />
                     <button
@@ -128,29 +101,22 @@
               </div>
             </div>
           </li>
-          <li class="nav-item ms-2" v-if="user_name">
-            <a class="nav-link icon-md btn btn-light p-0" href="/">
-              <i class="bi bi-chat-left-text-fill fs-6"> </i>
-            </a>
+          <!-- <li class="nav-item ms-2" v-if="user_name">
+            <router-link class="nav-link icon-md btn btn-light p-0" to="/"><i class="bi bi-chat-left-text-fill fs-6"> </i></router-link>
           </li>
           <li class="nav-item ms-2" v-if="user_name">
-            <a class="nav-link icon-md btn btn-light p-0" href="/">
-              <i class="bi bi-gear-fill fs-6"> </i>
-            </a>
-          </li>
+            <a class="nav-link icon-md btn btn-light p-0" @click="tiaoshi()"><i class="bi bi-gear-fill fs-6"> </i></a>
+          </li> -->
           <li class="nav-item dropdown ms-2" v-if="user_name">
-            <a
-              class="nav-link icon-md btn btn-light p-0"
-              href="#"
+            <router-link class="nav-link icon-md btn btn-light p-0"
+              to="/"
               id="notifDropdown"
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              data-bs-auto-close="outside"
-            >
-              <span class="badge-notif animation-blink"></span>
-              <i class="bi bi-bell-fill fs-6"> </i>
-            </a>
+              data-bs-auto-close="outside">
+              <!-- <span class="badge-notif animation-blink"></span> -->
+              <i class="bi bi-bell-fill fs-6"> </i></router-link>
             <div
               class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0"
               aria-labelledby="notifDropdown"
@@ -160,19 +126,19 @@
                   class="card-header d-flex justify-content-between align-items-center"
                 >
                   <h6 class="m-0">
-                    Notifications
+                    通知
                     <span class="badge bg-danger bg-opacity-10 text-danger ms-2"
-                      >4 new</span
+                      >4 条</span
                     >
                   </h6>
-                  <a class="small" href="#">Clear all</a>
+                  <router-link class="small" to="/">全部已读</router-link>
                 </div>
                 <div class="card-body p-0">
                   <ul class="list-group list-group-flush list-unstyled p-2">
                     <!-- Notif item -->
                     <li>
                       <div
-                        class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3"
+                        class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
                       >
                         <div
                           class="avatar text-center d-none d-sm-inline-block"
@@ -186,16 +152,16 @@
                         <div class="ms-sm-3">
                           <div class=" d-flex">
                             <p class="small mb-2">
-                              <b>Judy Nguyen</b> sent you a friend request.
+                              <b>小明</b> 发送好友申请
                             </p>
-                            <p class="small ms-3 text-nowrap">Just now</p>
+                            <p class="small ms-3 text-nowrap">刚刚</p>
                           </div>
                           <div class="d-flex">
                             <button class="btn btn-sm py-1 btn-primary me-2">
-                              Accept
+                              同意
                             </button>
                             <button class="btn btn-sm py-1 btn-danger-soft">
-                              Delete
+                              删除
                             </button>
                           </div>
                         </div>
@@ -204,7 +170,7 @@
                     <!-- Notif item -->
                     <li>
                       <div
-                        class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative"
+                        class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3 position-relative"
                       >
                         <div
                           class="avatar text-center d-none d-sm-inline-block"
@@ -218,75 +184,46 @@
                         <div class="ms-sm-3 d-flex">
                           <div>
                             <p class="small mb-2">
-                              Wish <b>Amanda Reed</b> a happy birthday (Nov 12)
+                              <b>小红</b> 过生日 (10月 12日)
                             </p>
                             <button
                               class="btn btn-sm btn-outline-light py-1 me-2"
                             >
-                              Say happy birthday 🎂
+                              祝福生日 🎂
                             </button>
                           </div>
-                          <p class="small ms-3">2min</p>
+                          <p class="small ms-3">2分钟前</p>
                         </div>
                       </div>
                     </li>
                     <!-- Notif item -->
                     <li>
-                      <a
-                        href="#"
-                        class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
-                      >
+                      <router-link class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3" to="/">
                         <div
                           class="avatar text-center d-none d-sm-inline-block"
                         >
                           <div class="avatar-img rounded-circle bg-success">
-                            <span
-                              class="text-white position-absolute top-50 start-50 translate-middle fw-bold"
-                              >WB</span
-                            >
+                            <img
+                            class="avatar-img rounded-circle"
+                            src="/static/images/avatar/01.jpg"
+                            alt=""
+                          />
                           </div>
                         </div>
                         <div class="ms-sm-3">
                           <div class="d-flex">
                             <p class="small mb-2">
-                              Webestica has 15 like and 1 new activity
+                              小明给你的文章点赞了
                             </p>
-                            <p class="small ms-3">1hr</p>
+                            <p class="small ms-3">1小时前</p>
                           </div>
                         </div>
-                      </a>
-                    </li>
-                    <!-- Notif item -->
-                    <li>
-                      <a
-                        href="#"
-                        class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1"
-                      >
-                        <div
-                          class="avatar text-center d-none d-sm-inline-block"
-                        >
-                          <img
-                            class="avatar-img rounded-circle"
-                            src="/static/images/logo/12.svg"
-                            alt=""
-                          />
-                        </div>
-                        <div class="ms-sm-3 d-flex">
-                          <p class="small mb-2">
-                            <b>Bootstrap in the news:</b> The search giant’s
-                            parent company, Alphabet, just joined an exclusive
-                            club of tech stocks.
-                          </p>
-                          <p class="small ms-3">4hr</p>
-                        </div>
-                      </a>
+                      </router-link>
                     </li>
                   </ul>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="#" class="btn btn-sm btn-primary-soft"
-                    >See all incoming activity</a
-                  >
+                  <router-link class="btn btn-sm btn-primary-soft" to="/">查看所有通知</router-link>
                 </div>
               </div>
             </div>
@@ -294,22 +231,20 @@
           <!-- Notification dropdown END -->
 
           <li class="nav-item ms-2 dropdown" v-if="user_name">
-            <a
-              class="nav-link btn icon-md p-0"
-              href="#"
+            <router-link class="nav-link btn icon-md p-0"
+              :to="'/user/' + this.user_id"
               id="profileDropdown"
               role="button"
               data-bs-auto-close="outside"
               data-bs-display="static"
               data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+              aria-expanded="false">
               <img
                 class="avatar-img rounded-2"
                 src="/static/images/avatar/07.jpg"
                 alt=""
               />
-            </a>
+            </router-link>
             <ul
               class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3"
               aria-labelledby="profileDropdown"
@@ -318,7 +253,7 @@
               <li class="px-3">
                 <div class="d-flex align-items-center position-relative">
                   <!-- Avatar -->
-                  <div class="avatar me-3">
+                  <div class="avatar avatar-xs me-3">
                     <img
                       class="avatar-img rounded-circle"
                       src="/static/images/avatar/07.jpg"
@@ -326,40 +261,25 @@
                     />
                   </div>
                   <div>
-                    <a class="h6 stretched-link" href="#">{{ user_name }}</a>
-                    <p class="small m-0">全栈程序员</p>
+                    <router-link class="h6 stretched-link" :to="'/user/' + this.user_id">{{ user_name }}</router-link>
+                    <p class="small m-0">后端开发工程师</p>
                   </div>
                 </div>
-                <a
-                  class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center"
-                  href="my-profile.html"
-                  >个人信息</a
-                >
+                  <router-link class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" :to="'/user/' + this.user_id">个人信息</router-link>
               </li>
               <!-- Links -->
               <li>
-                <a class="dropdown-item" href="settings.html"
-                  ><i class="bi bi-gear fa-fw me-2"></i>设置</a
-                >
+                <router-link class="dropdown-item" to="/"><i class="bi bi-gear fa-fw me-2"></i>设置</router-link>
               </li>
               <li>
-                <a class="dropdown-item" href="http://www.bootstrapmb.com">
-                  <i class="fa-fw bi bi-life-preserver me-2"></i>支持
-                </a>
+                <router-link class="dropdown-item" to="/"><i class="fa-fw bi bi-life-preserver me-2"></i>支持</router-link>
               </li>
               <li>
-                <a class="dropdown-item" href="">
-                  <i class="fa-fw bi bi-card-text me-2"></i>文档
-                </a>
+                <router-link class="dropdown-item" to="/"><i class="fa-fw bi bi-card-text me-2"></i>文档</router-link>
               </li>
               <li class="dropdown-divider"></li>
               <li>
-                <a
-                  class="dropdown-item bg-danger-soft-hover"
-                  href=""
-                  @click="logout"
-                  ><i class="bi bi-power fa-fw me-2"></i>退出</a
-                >
+                <a class="dropdown-item btn bg-danger-soft-hover" @click="logout"><i class="bi bi-power fa-fw me-2"></i>退出</a>
               </li>
               <li><hr class="dropdown-divider" /></li>
               <!-- Dark mode switch START -->
@@ -383,15 +303,13 @@
           <li class="nav-item ms-2" v-else>
             <button
               class="btn btn-sm py-1 btn-outline-primary me-2"
-              data-bs-toggle="modal"
-              data-bs-target="#modalUserLogin"
+              @click="showLogin"
             >
               登录
             </button>
             <button
               class="btn btn-sm py-1 btn-outline-primary me-2"
-              data-bs-toggle="modal"
-              data-bs-target="#modalUserRegister"
+              @click="showRegister"
             >
               注册
             </button>
@@ -405,32 +323,35 @@
 </template>
 
 <script>
-import { logout, userinfo } from "@/api/user.js";
+import { logout } from "@/api/user.js";
 export default {
   name: "HelloWorld",
-
   data() {
     return {
-      user_name: "",
-      theme: "light"
+      user_id: this.$store.state.user_id,
+      user_name: this.$store.state.user_name,
+      theme: this.$store.state.theme,
     };
   },
   methods: {
+    showLogin() {
+      this.$create('login').show()
+    },
+    showRegister() {
+      this.$create('register').show()
+    },
     changeTheme() {
       this.theme = this.func.changeTheme();
     },
     logout() {
       logout();
+      this.func.delCookie('token');
+      this.func.delCookie('refresh_token');
+      this.func.delCookie('user_name');
+      this.func.delCookie('user_id');
       location.reload();
-    }
+    },
   },
-  mounted() {
-    this.theme = this.func.getTheme();
-  },
-  created() {
-    this.user_name = this.func.getUserName();
-    userinfo();
-  }
 };
 </script>
 

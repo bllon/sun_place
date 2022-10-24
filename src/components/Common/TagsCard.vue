@@ -9,32 +9,17 @@
     <div class="card-body">
       <!-- Tag list START -->
       <ul class="list-inline mb-0 d-flex flex-wrap gap-2">
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">blog</a>
+        <li class="list-inline-item m-1">
+          <router-link class="btn btn-outline-info btn-sm py-1 px-2" to="/">生活</router-link>
         </li>
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">business</a>
+        <li class="list-inline-item m-1">
+          <router-link class="btn btn-outline-warning btn-sm py-1 px-2" to="/">编程</router-link>
         </li>
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">theme</a>
+        <li class="list-inline-item m-1">
+          <router-link class="btn btn-outline-success btn-sm py-1 px-2" to="/">日记</router-link>
         </li>
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">social</a>
-        </li>
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">getbootstrap</a>
-        </li>
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">design</a>
-        </li>
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">news</a>
-        </li>
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">magazine</a>
-        </li>
-        <li class="list-inline-item m-0">
-          <a class="btn btn-outline-light btn-sm" href="#">events</a>
+        <li class="list-inline-item m-1">
+          <router-link class="btn btn-outline-danger btn-sm py-1 px-2" to="/">诗和远方</router-link>
         </li>
       </ul>
       <!-- Tag list END -->

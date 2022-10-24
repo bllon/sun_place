@@ -3,6 +3,7 @@
     <Header></Header>
     <Main></Main>
     <!-- <MainChat></MainChat> -->
+    <!-- <Footer></Footer> -->
     
   </div>
 </template>
@@ -11,8 +12,9 @@
 import Header from './Header.vue';
 import Main from "@/components/Index/Main"
 import MainChat from "@/components/Index/MainChat"
+import Footer from '@/components/Common/Footer'
 export default {
-  components: { Header, Main, MainChat },
+  components: { Header, Main, MainChat, Footer },
   name: "Index",
   data() {
     return {

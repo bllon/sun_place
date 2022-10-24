@@ -1,18 +1,6 @@
 <template>
   <!-- **************** MAIN CONTENT START **************** -->
   <main>
-    <div v-show="toast_message" ref="toast" class="toast" aria-atomic="true" data-bs-delay="3000"
-    style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10000;">
-      <div class="toast-header bg-light">
-        <!-- <img src="..." class="rounded me-2" alt="..."> -->
-        <strong class="me-auto">提示</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body bg-light" :class="toast_style">
-        {{toast_message}}
-      </div>
-    </div>
-
     <!-- Container START -->
     <div class="container-fulid">
       <div class="row g-4">
@@ -21,20 +9,19 @@
           <!-- Create a page START -->
           <div class="card">
             <!-- Title START -->
-            <div class="card-header border-0 pb-0">
+            <div class="card-header border-0 pb-0 mt-1 p-1">
               <h1 class="h4 card-title mb-0">发布文章</h1>
             </div>
             <!-- Title END -->
             <!-- Create a page form START -->
-            <div class="card-body">
+            <div class="card-body p-1">
               <form class="row g-3">
                 <!-- Page information -->
                 <div class="col-lg-6">
-                  <label class="form-label">标题</label>
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="输入文章标题"
+                    placeholder="标题"
                     v-model="title"
                   />
                 </div>
@@ -48,7 +35,7 @@
                 </div>
                 <!-- Button  -->
                 <div class="col-12 text-end">
-                  <button type="button" class="btn btn-primary mb-0" @click="publish">
+                  <button type="button" class="btn btn-primary mb-2 me-2" @click="publish" :disabled="is_publishing">
                     发布
                   </button>
                 </div>
@@ -67,60 +54,83 @@
 </template>
 
 <script>
-import { article_put } from "@/api/article.js"  
+import { article_put, article_info, article_edit } from "@/api/article.js"  
 export default {
   name: "EditArticleMain",
   data() {
     return {
+      article_id: this.$route.params.article_id,
       title:"",
       cherry: null,
-      toast: null,
-      toast_style: "",
-      toast_message: "",
+      is_publishing: false
     };
   },
   methods: {
     publish() {
-      this.func.showLogin()
+      if (!this.$store.state.is_login) {
+        this.$create('login').show()
+        return;
+      }
+      if (this.is_publishing) {
+        return;
+      }
+      this.is_publishing = true;
       if (this.func.isNull(this.title)) {
-        this.toast_style = 'text-warning'
-        this.toast_message = '请填写文章标题'
-        this.toast.show()
+        this.$toast({message: "请填写文章标题", text_style: "warning"}).show()
+        this.is_publishing = false
         return;
       }
       if (this.func.isNull(this.cherry.getMarkdown())) {
-        this.toast_style = 'text-warning'
-        this.toast_message = '请填写文章内容'
-        this.toast.show()
+        this.$toast({message: "请填写文章内容", text_style: "warning"}).show()
+        this.is_publishing = false
         return;
       }
 
       var params = {};
       params.title = this.title;
       params.content = this.cherry.getHtml();
-      const promise = article_put(params);
-      promise.then((res) => {
-        if (res.code == 0) {
-          this.toast_style = 'text-success'
-          this.toast_message = '发布成功, 2s后将跳转至详情页...'
-          this.toast.show()
-          setTimeout(() => {
-            this.$router.push({
-              path : '/article/' + res.data.article_id,
-            })
-          },2000)
-        } else {
-          this.toast_message = res.message
-        }
-        this.toast.show()
-      })
+      params.markdown_content = this.cherry.getMarkdown();
 
-      console.log(this.cherry.getMarkdown());
-      console.log(this.cherry.getHtml());
+      if (this.article_id == undefined) {
+        const promise = article_put(params);
+        promise.then((res) => {
+          if (res) {
+            if (res.code == 0) {
+              this.$toast({message: "发布成功, 2s后将跳转至详情页...", text_style: "success", duration: 2000}).show()
+              setTimeout(() => {
+                this.$router.push({
+                  path : '/article/' + res.data.article_id,
+                })
+              },2000)
+            } else {
+              this.$toast({message: res.msg, text_style: "danger"}).show()
+              this.is_publishing = false
+            }
+          } else {
+            this.is_publishing = false
+          } 
+        })
+      } else {
+        //修改
+        params.article_id = this.article_id;
+        const promise = article_edit(params);
+        promise.then((res) => {
+          if (res.code == 0) {
+            this.$toast({message: "发布成功, 2s后将跳转至详情页...", text_style: "success", duration: 2000}).show()
+            setTimeout(() => {
+              this.$router.push({
+                path : '/article/' + this.article_id,
+              })
+            },2000)
+          } else {
+            this.$toast({message: res.msg, text_style: "danger"}).show()
+            this.is_publishing = false
+          }
+          this.toast.show()
+        })
+
+      }
     },
-    setContent() {
-      this.cherry.setMarkdown(this.prview);
-    }
   },
   created() {
     
@@ -128,9 +138,35 @@ export default {
   updated() {
     
   },
+  beforeMount() {
+    if (this.article_id != undefined) {
+      const promise = article_info(this.article_id);
+      promise.then(res => {
+        if (res) {
+          if (res.code == 0 && res.data.user_id == this.$store.state.user_id) { //文章用户才能修改
+            this.title = res.data.title;
+            this.cherry.setMarkdown(res.data.markdown_content);
+          } else {
+            this.toast_style = 'text-danger'
+            this.toast_message = '非法操作'
+            this.toast.show()
+            setTimeout(() => {
+              this.$router.push({
+                path : '/article/' + this.article_id,
+              })
+            }, 2000)
+          }
+        } else {
+          this.$router.push({
+            path : '/article/' + this.article_id,
+            name: 'Error500',
+            components: Error500
+          })
+        }
+      });
+    }
+  },
   mounted() {
-    
-    this.toast = new bootstrap.Toast(this.$refs.toast);
     this.cherry = new Cherry({
       id: "markdown-container",
       value: "",
@@ -211,3 +247,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.toast {
+  width: 220px;
+  letter-spacing: 1px;
+}
+</style>

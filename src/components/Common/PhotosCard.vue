@@ -3,7 +3,7 @@
     <!-- Card header START -->
     <div class="card-header d-sm-flex justify-content-between border-0">
       <h5 class="card-title">照片</h5>
-      <a class="btn btn-primary-soft btn-sm" href="#!"> 查看更多</a>
+      <router-link class="btn btn-primary-soft btn-sm" to="/">查看更多</router-link>
     </div>
     <!-- Card header END -->
     <!-- Card body START -->
@@ -11,74 +11,75 @@
       <div class="row g-2">
         <!-- Photos item -->
         <div class="col-6">
-          <a
-            href="/static/images/albums/01.jpg"
-            data-gallery="image-popup"
-            data-glightbox=""
-          >
+          <router-link data-gallery="image-popup"
+          data-bs-toggle="button"
+            data-glightbox="" to="/static/images/albums/01.jpg">
             <img
               class="rounded img-fluid"
               src="/static/images/albums/01.jpg"
               alt=""
             />
-          </a>
+          </router-link>
         </div>
         <!-- Photos item -->
         <div class="col-6">
-          <a
-            href="/static/images/albums/02.jpg"
-            data-gallery="image-popup"
-            data-glightbox=""
-          >
+          <router-link data-gallery="image-popup"
+          data-bs-toggle="button"
+            data-glightbox="" to="/static/images/albums/02.jpg">
             <img
               class="rounded img-fluid"
               src="/static/images/albums/02.jpg"
               alt=""
             />
-          </a>
+          </router-link>
         </div>
         <!-- Photos item -->
         <div class="col-4">
-          <a
-            href="/static/images/albums/03.jpg"
-            data-gallery="image-popup"
-            data-glightbox=""
-          >
+          <router-link data-gallery="image-popup"
+          data-bs-toggle="button"
+            data-glightbox="" to="/static/images/albums/03.jpg">
             <img
               class="rounded img-fluid"
               src="/static/images/albums/03.jpg"
               alt=""
             />
-          </a>
+          </router-link>
         </div>
         <!-- Photos item -->
         <div class="col-4">
-          <a
-            href="/static/images/albums/04.jpg"
-            data-gallery="image-popup"
-            data-glightbox=""
-          >
-            <img
-              class="rounded img-fluid"
-              src="/static/images/albums/04.jpg"
-              alt=""
-            />
-          </a>
-        </div>
-        <!-- Photos item -->
-        <div class="col-4">
-          <a
-            href="/static/images/albums/05.jpg"
-            data-gallery="image-popup"
-            data-glightbox=""
-          >
+          <router-link data-gallery="image-popup"
+          data-bs-toggle="button"
+            data-glightbox="" to="/static/images/albums/05.jpg">
             <img
               class="rounded img-fluid"
               src="/static/images/albums/05.jpg"
               alt=""
             />
-          </a>
-          <!-- glightbox Albums left bar END  -->
+          </router-link>
+        </div>
+        <!-- Photos item -->
+        <div class="col-4">
+          <router-link data-gallery="image-popup"
+          data-bs-toggle="button"
+            data-glightbox="" to="/static/images/albums/06.jpg">
+            <img
+              class="rounded img-fluid"
+              src="/static/images/albums/06.jpg"
+              alt=""
+            />
+          </router-link>
+        </div>
+        <!-- Photos item -->
+        <div class="col-12">
+          <router-link data-gallery="image-popup"
+          data-bs-toggle="button"
+            data-glightbox="" to="/static/images/bg/06.jpg">
+            <img
+              class="rounded img-fluid"
+              src="/static/images/bg/06.jpg"
+              alt=""
+            />
+          </router-link>
         </div>
       </div>
     </div>

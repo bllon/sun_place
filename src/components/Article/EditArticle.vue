@@ -5,10 +5,9 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
 import EditArticleMain from "@/components/Article/EditArticleMain"
 export default {
-    components: { Header, EditArticleMain },
+    components: { EditArticleMain },
     name: "EditArticle",
     data() {
         return {
