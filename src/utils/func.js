@@ -19,14 +19,22 @@ export default {
                 to_theme = "dark";
             }
         }
-        
-        var eleLinks = document.querySelectorAll('link[title]');
-        eleLinks.forEach(function (link) {
-            link.disabled = true;
-            if (link.getAttribute('title') == to_theme) {
-                link.disabled = false;
-            }
-        });
+
+        var style = document.getElementById("style-switch");
+        var href = style.getAttribute('href');
+        if (to_theme === "dark" && href === "/static/css/style-dark.css") {
+            return to_theme;
+        }
+
+        if (to_theme === "light" && href === "/static/css/style.css") {
+            return to_theme;
+        }
+
+        if (to_theme === "dark") {
+            style.setAttribute("href", "/static/css/style-dark.css");
+        } else {
+            style.setAttribute("href", "/static/css/style.css");
+        }
         localStorage.setItem("data-theme", to_theme);
         return to_theme;
     },
@@ -48,10 +56,6 @@ export default {
         document.cookie=c_name+ "="+escape("")+"; expires="+date.toGMTString()
     },
     getUserId() {
-        var user_id = this.getCookie('user_id');
-        if (user_id != '') {
-            return user_id
-        }
         var token = this.getCookie('token');
         if(token == '') {
             return '';
@@ -63,24 +67,6 @@ export default {
             let userInfo = decodeURIComponent(escape(window.atob(arr[1].replace(/-/g, "+").replace(/_/g, "/"))));
             userInfo = JSON.parse(userInfo);
             return userInfo['user_id'] ? userInfo['user_id'] : '';
-        }
-    },
-    getUserName() {
-        var user_name = this.getCookie('user_name');
-        if (user_name != '') {
-            return user_name
-        }
-        var token = this.getCookie('token');
-        if(token == '') {
-            return '';
-        } else {
-            var arr = token.split(".")
-            if (arr.length < 3) {
-                return '';
-            }
-            let userInfo = decodeURIComponent(escape(window.atob(arr[1].replace(/-/g, "+").replace(/_/g, "/"))));
-            userInfo = JSON.parse(userInfo);
-            return userInfo['user_name'] ? userInfo['user_name'] : '';
         }
     },
     getRefreshToken() {

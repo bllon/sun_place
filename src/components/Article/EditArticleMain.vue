@@ -115,20 +115,20 @@ export default {
         params.article_id = this.article_id;
         const promise = article_edit(params);
         promise.then((res) => {
-          if (res.code == 0) {
-            this.$toast({message: "发布成功, 2s后将跳转至详情页...", text_style: "success", duration: 2000}).show()
-            setTimeout(() => {
-              this.$router.push({
-                path : '/article/' + this.article_id,
-              })
-            },2000)
-          } else {
-            this.$toast({message: res.msg, text_style: "danger"}).show()
-            this.is_publishing = false
+          if (res) {
+            if (res.code == 0) {
+              this.$toast({message: "发布成功, 2s后将跳转至详情页...", text_style: "success", duration: 2000}).show()
+              setTimeout(() => {
+                this.$router.push({
+                  path : '/article/' + this.article_id,
+                })
+              },2000)
+            } else {
+              this.$toast({message: res.msg, text_style: "danger"}).show()
+              this.is_publishing = false
+            }
           }
-          this.toast.show()
         })
-
       }
     },
   },
@@ -143,7 +143,8 @@ export default {
       const promise = article_info(this.article_id);
       promise.then(res => {
         if (res) {
-          if (res.code == 0 && res.data.user_id == this.$store.state.user_id) { //文章用户才能修改
+          let user = this.$store.state.user
+          if (res.code == 0 && res.data.user_id == user.user_id) { //文章用户才能修改
             this.title = res.data.title;
             this.cherry.setMarkdown(res.data.markdown_content);
           } else {

@@ -17,36 +17,66 @@
     <link rel="shortcut icon" href="/static/images/logo/04.svg">
 
     <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"> -->
+
+    <script type="text/javascript">
+      //动态加载样式，防样式刷新抖动
+      let theme = localStorage.getItem("data-theme");
+      let url
+      if (theme === "dark") {
+        url = "/static/css/style-dark.css"
+      } else if (theme == null || theme === "light") {
+        theme = "light"
+        url = "/static/css/style.css"
+      }
+      var link=document.createElement("link"); 
+      link.setAttribute("id", "style-switch");
+      link.setAttribute("rel", "stylesheet"); 
+      link.setAttribute("type", "text/css"); 
+      link.setAttribute("href", url);
+      link.setAttribute("title", theme);
+      document.getElementsByTagName("head")[0].appendChild(link)
+    </script>
+
+    <!-- 主样式 -->
+    <!-- <link id="style-switch" rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
 
     <!-- Plugins CSS -->
+    <!-- 字体icon -->
     <link rel="stylesheet" type="text/css" href="/static/vendor/font-awesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/static/vendor/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/OverlayScrollbars-master/css/OverlayScrollbars.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/tiny-slider/dist/tiny-slider.css">
+
+    <!-- 选择框文本框定制组件 -->
     <link rel="stylesheet" type="text/css" href="/static/vendor/choices/public/assets/styles/choices.min.css" />
+
+    <!-- 图片灯箱组件 -->
     <link rel="stylesheet" type="text/css" href="/static/vendor/glightbox-master/dist/css/glightbox.min.css">
+
+    <!-- 文件拖拽上传 -->
     <link rel="stylesheet" type="text/css" href="/static/vendor/dropzone/dist/dropzone.css" />
+
+    <!-- 日期选择 -->
     <link rel="stylesheet" type="text/css" href="/static/vendor/flatpickr/dist/flatpickr.css" />
-    <link rel="stylesheet" type="text/css" href="/static/vendor/plyr/plyr.css" />
 
-    <!-- Theme CSS -->
-    <!-- <link rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
-
-    <link title="light" rel="alternate stylesheet" type="text/css" href="/static/css/light.css">
-    <link title="dark" rel="alternate stylesheet" disabled type="text/css" href="/static/css/dark.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/basic.css">
-
+    <!-- markdown文本编辑器 -->
     <link rel="stylesheet" type="text/css" href="/static/cherry-markdown.css">
+
+    <!-- 自定义样式滚动条 -->
+    <!-- <link rel="stylesheet" type="text/css" href="/static/vendor/OverlayScrollbars-master/css/OverlayScrollbars.min.css"> -->
+
+    <!-- 图片轮播组件 -->
+    <!-- <link rel="stylesheet" type="text/css" href="/static/vendor/tiny-slider/dist/tiny-slider.css"> -->
+
+    <!-- html5播放器 -->
+    <!-- <link rel="stylesheet" type="text/css" href="/static/vendor/plyr/plyr.css" /> -->
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMKQ4P9YMZ"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics 谷歌事件统计 埋点-->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMKQ4P9YMZ"></script> -->
+
   </head>
   <body>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
-
     <!-- 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
     <script src="/static/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -71,8 +101,9 @@
     <!-- 文件上传 -->
     <script src="/static/vendor/dropzone/dist/min/dropzone.min.js"></script>
 
-    <script src="/static/js/functions.js"></script>
+    <!-- <script src="/static/js/functions.js"></script> -->
 
+    <!-- markdown文本编辑器 -->
     <script src="/static/cherry-markdown.js"></script>
   </body>
 </html>

@@ -5,19 +5,33 @@
 </template>
 
 <script>
+import { userinfo } from "@/api/user.js";
 export default {
   name: "App",
   data() {
     return {
     };
   },
-  beforeMount() {
+  created() {
     //获取全局登录状态，并设置
-    const token = this.func.getCookie('token'); //有登陆态
+    const token = this.func.getCookie('token');
     if (token != "") {
+       //有登陆态
       this.$store.commit('setLoginStatus', true);
-      this.$store.commit('setUserName', this.func.getUserName());
-      this.$store.commit('setUserId', this.func.getUserId());
+
+      //获取用户信息
+      let user = localStorage.getItem("user")
+      if (user) {
+        this.$store.commit('setUser', JSON.parse(user));
+      } else {
+        //请求获取用户信息
+        let user_id = this.func.getUserId();
+        userinfo(user_id).then(res=>{
+          if (res && res.code == 0) {
+            localStorage.setItem('user', JSON.stringify(res.data));
+          }
+        })
+      }
     }
 
     //获取全局theme

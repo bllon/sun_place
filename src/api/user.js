@@ -45,3 +45,12 @@ export function userinfo(params) {
         method :'get',
     })
 }
+
+export function update_user(params) {
+    return request({
+        url:'user/update',
+        method :'post',
+        headers:{"Content-Type":"multipart/form-data"},
+        data: params
+    })
+}

@@ -7,7 +7,7 @@
         <!-- Main content START -->
         <div :class="[screenWidth < 992 ? 'col-md-12 col-lg-12 mt-1' : 'col-md-8 col-lg-9']">
           <!-- 快捷方式 -->
-          <Quick></Quick>
+          <!-- <Quick></Quick> -->
 
           <!-- Trending tab START -->
           <div class="tab-pane text-center" v-if="article_list.length == 0">
@@ -128,7 +128,7 @@ export default {
         }
         this.is_loading = true;
         setTimeout(() => {
-          const promise = article_list({page: this.page++});
+          const promise = article_list({page: ++this.page});
           promise.then((res) => {
             if (res && res.code == 0 && res.data != null) {
               this.article_list = this.article_list.concat(res.data)

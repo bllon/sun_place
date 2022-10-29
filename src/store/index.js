@@ -7,8 +7,7 @@ export default new Vuex.Store({
   //state存放状态,
   state: {
     is_login: '',
-    user_id: '',
-    user_name: '',
+    user: {},
     theme: 'light',
   },
   //getter为state的计算属性
@@ -16,11 +15,8 @@ export default new Vuex.Store({
     loginStatus: (state) => {
       return state.is_login
     },
-    userId: (state) => {
-      return state.user_id
-    },
-    userName: (state) => {
-      return state.user_name
+    user: (state) => {
+      return state.user
     },
     theme: (state) => {
       return state.theme
@@ -31,17 +27,15 @@ export default new Vuex.Store({
     setLoginStatus: (state, status) => {
       state.is_login = status
     },
-    setUserName: (state, user_name) => {
-      state.user_name = user_name
-    },
-    setUserId: (state, user_id) => {
-      state.user_id = user_id
-    },
-    setExpireTime: (state, expire_time) => {
-      state.expire_time = expire_time
+    setUser: (state, user) => {
+      state.user = user
+      if (user == '' || user == {} || user == null) {
+        state.user = {}
+        localStorage.removeItem('user');
+      }
     },
     setTheme: (state, theme) => {
       state.theme = theme
-    }
+    },
   },
 })

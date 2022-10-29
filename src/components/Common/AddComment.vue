@@ -8,13 +8,13 @@
         />
         <!-- Emoji button -->
         <button
-        class="icon-md btn text-primary p-0"
+        class="icon-md btn text-primary p-0 ms-2"
         type="button"
         @click="reply_comment"
         >
         发布
         </button>
-        <button type="button" class="btn-close btn-sm me-2 m-auto" @click="close"></button>
+        <button type="button" class="btn-close btn-sm ms-3 me-2 m-auto" @click="close"></button>
     </div>
   </template>
   

@@ -76,14 +76,14 @@
 </template>
 
 <script>
-import { login } from "@/api/user.js" 
+import { login, userinfo } from "@/api/user.js" 
 export default {
   name: "Login",
   data() {
     return {
       form: {
-        user_name: "admin111",
-        password: "Aadmin1234",
+        user_name: "burrito",
+        password: "Ab123456",
       }
     };
   },
@@ -96,6 +96,13 @@ export default {
         promise.then((res) => {
           if (res) {
             if (res.code == 0) {
+              //请求获取用户信息
+              let user_id = this.func.getUserId();
+              userinfo(user_id).then(res=>{
+                if (res && res.code == 0) {
+                  localStorage.setItem('user', JSON.stringify(res.data));
+                }
+              })
               location.reload();
             } else {
               form.classList.add('was-validated')

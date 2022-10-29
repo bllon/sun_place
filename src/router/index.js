@@ -7,6 +7,7 @@ import Article from '@/components/Article/Article'
 import Error404 from '@/components/Error/Error404'
 import Error500 from '@/components/Error/Error500'
 import Profile from '@/components/User/Profile'
+import Setting from '@/components/User/Setting'
 
 Vue.use(Router)
 
@@ -72,6 +73,11 @@ export default new Router({
       path: '/user/:user_id',
       name: 'Error500',
       component: Error500
+    },
+    {
+      path: '/setting',
+      name: 'Setting',
+      component: Setting
     },
 
     //404

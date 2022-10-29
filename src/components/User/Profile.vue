@@ -25,7 +25,7 @@
                     <div class="avatar avatar-xxl mt-n5 mb-3">
                       <img
                         class="avatar-img rounded-circle border border-white border-3"
-                        src="/static/images/avatar/07.jpg"
+                        :src="user.avatar"
                         alt=""
                       />
                     </div>
@@ -33,16 +33,16 @@
                   <div class="ms-sm-4 mt-sm-3">
                     <!-- Info -->
                     <h1 class="mb-0 h5">
-                      {{ user_name }}
+                      {{ user.user_name }}
                       <i class="bi bi-patch-check-fill text-success small"></i>
                     </h1>
-                    <p v-if="create_time">注册时间 {{create_time | timeago}}</p>
+                    <p v-if="user.create_time">注册时间 {{user.create_time | timeago}}</p>
                   </div>
                   <!-- Button -->
                   <div class="d-flex mt-3 justify-content-center ms-sm-auto">
-                    <button v-if="user_id == this.$store.state.user_id" class="btn btn-sm btn-success-soft me-2" type="button">
-                      <i class="bi bi-pencil-fill pe-1"></i> 修改信息
-                    </button>
+                    <router-link v-if="user_id == this.$store.state.user.user_id" class="btn btn-success-soft me-2 p-2" to="/setting">
+                      修改信息
+                    </router-link>
                     <div class="dropdown">
                       <!-- Card share action menu -->
                       <button
@@ -70,7 +70,7 @@
                   class="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0"
                 >
                   <li class="list-inline-item">
-                    <i class="bi bi-briefcase me-1"></i> 后端开发工程师
+                    <i class="bi bi-briefcase me-1"></i> {{user.occupation}}
                   </li>
                   <!-- <li class="list-inline-item"><i class="bi bi-geo-alt me-1"></i> New Hampshire</li>
                 <li class="list-inline-item"><i class="bi bi-calendar2-plus me-1"></i> Joined on Nov 26, 2019</li> -->
@@ -78,18 +78,39 @@
               </div>
               <!-- Card body END -->
               <div class="card-footer mt-3 pt-2 pb-0">
-                <!-- Nav profile pages -->
-                <ul
-                  class="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0"
-                >
-                  <!-- <li class="nav-item"> <a class="nav-link active" href="my-profile.html"> 文章 </a> </li>
-                <li class="nav-item"> <a class="nav-link" href="my-profile-about.html"> 照片 </a> </li> -->
-                  <!-- <li class="nav-item"> <a class="nav-link" href="my-profile-connections.html"> Connections <span class="badge bg-success bg-opacity-10 text-success small"> 230</span> </a> </li>
-                <li class="nav-item"> <a class="nav-link" href="my-profile-media.html"> Media</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="my-profile-videos.html"> Videos</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="my-profile-events.html"> Events</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="my-profile-activity.html"> Activity</a> </li> -->
-                </ul>
+                <!-- Tab nav line -->
+            <ul class="nav nav-tabs nav-bottom-line">
+              <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#tab-1"> 关注 </a> </li>
+              <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#tab-2"> 收藏 </a> </li>
+              <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#tab-3"> 评论 </a> </li>
+              <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#tab-4"> 照片 </a> </li>
+            </ul>
+            <div class="tab-content mb-0 pb-0">
+              <!-- Home tab START -->
+              <div class="tab-pane fade show active" id="tab-1">
+                
+              </div>
+              <!-- Home tab END -->
+
+              <!-- Live tab START -->
+              <div class="tab-pane fade" id="tab-2">
+                
+              </div>
+              <!-- Live tab END -->
+
+              <!-- Show tab START -->
+              <div class="tab-pane fade" id="tab-3">
+                
+              </div>
+              <!-- Show tab END -->
+
+              <!-- Saved video START -->
+              <div class="tab-pane fade" id="tab-4">
+                
+              </div>
+              <!-- Saved video END -->
+
+            </div>
               </div>
             </div>
             <!-- My profile END -->
@@ -108,17 +129,21 @@
                   </div>
                   <!-- Card body START -->
                   <div class="card-body position-relative pt-0">
-                    <p>喜欢唱跳, rap, 篮球</p>
+                    <p>{{user.introduce}}</p>
                     <!-- Date time -->
                     <ul class="list-unstyled mt-3 mb-0">
                       <li class="mb-2">
                         <i class="bi bi-calendar-date fa-fw pe-1"></i> 出生日期:
-                        <strong> 1998年5月 </strong>
+                        <strong> {{user.brithday}} </strong>
                       </li>
                       <!-- <li class="mb-2"> <i class="bi bi-heart fa-fw pe-1"></i> Status: <strong> Single </strong> </li> -->
                       <li>
                         <i class="bi bi-envelope fa-fw pe-1"></i> 邮箱:
-                        <strong> 1192475069@qq.com </strong>
+                        <strong> {{user.email}} </strong>
+                      </li>
+                      <li>
+                        <i class="bi bi-phone fa-fw pe-1"></i> 手机:
+                        <strong> {{user.phone}} </strong>
                       </li>
                     </ul>
                   </div>
@@ -154,8 +179,7 @@ export default {
   data() {
     return {
       user_id: this.$route.params.user_id,
-      user_name: "",
-      create_time: "",
+      user: {},
     };
   },
   mounted() {
@@ -163,8 +187,7 @@ export default {
     promise.then(res => {
       if (res) {
         if (res.code == 0) {
-          this.user_name = res.data.user_name;
-          this.create_time = res.data.create_time
+          this.user = res.data;
         } else {
           this.$router.push({
             path : '/user/' + this.user_id,

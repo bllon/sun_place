@@ -21,7 +21,7 @@
                 <div class="avatar me-2 mx-2">
                   <router-link :to="'/user/' + user_id"><img
                       class="avatar-img rounded-circle"
-                      src="/static/images/avatar/07.jpg"
+                      :src="user.avatar"
                       alt=""
                     /></router-link>
                 </div>
@@ -35,13 +35,13 @@
                       {{ update_time | timeago }}</span
                     >
                   </div>
-                  <p class="mb-0 small">后端开发工程师</p>
+                  <p class="mb-0 small">{{user.occupation}}</p>
                 </div>
               </div>
               <!-- Card feed action dropdown START -->
               <div class="dropdown me-2">
                 <router-link
-                  v-if="this.$store.state.user_name == user_name"
+                  v-if="this.$store.state.user.user_id == user_id"
                   class="nav-link icon-md btn btn-light p-0"
                   :to="'/article/' + article_id + '/edit'"
                   >编辑</router-link
@@ -179,11 +179,11 @@
               <!-- Add comment -->
               <div class="d-flex">
                 <!-- Avatar -->
-                <div class="avatar avatar-xs me-2">
+                <div class="avatar avatar-xs me-2" v-if="this.$store.state.user.avatar">
                   <a href="#!">
                     <img
                       class="avatar-img rounded-circle"
-                      src="/static/images/avatar/07.jpg"
+                      :src="this.$store.state.user.avatar"
                       alt=""
                     />
                   </a>
@@ -227,7 +227,7 @@
                     <div class="avatar avatar-xs">
                       <router-link :to="'/user/' + item.user_id"><img
                           class="avatar-img rounded-circle"
-                          src="/static/images/avatar/07.jpg"
+                          :src="item.avatar"
                           alt=""
                       /></router-link>
                     </div>
@@ -296,7 +296,7 @@
                           <div class="avatar avatar-xs">
                             <router-link :to="'/user/' + child_item.user_id"><img
                                 class="avatar-img rounded-circle"
-                                src="/static/images/avatar/07.jpg"
+                                :src="child_item.avatar"
                                 alt=""
                             /></router-link>
                           </div>
@@ -387,6 +387,7 @@ import {
   comment_like_save,
   comment_like_cancel
 } from "@/api/article.js";
+import { userinfo } from "@/api/user.js";
 export default {
   name: "ArticleMain",
   data() {
@@ -403,8 +404,8 @@ export default {
       like_num: 0,
       comment_num: 0,
       comment_list: [],
-
       reply_comment_box: null,
+      user: {},//文章用户信息
     };
   },
   methods: {
@@ -454,10 +455,12 @@ export default {
       promise.then(res => {
         if (res) {
           if (res.code == 0) {
+            let user = this.$store.state.user
             //加入新评论
             let commentItem = this.$create('CommentItem', {
-              user_id: this.$store.state.user_id, 
-              user_name: this.$store.state.user_name,
+              user_id: user.user_id, 
+              user_name: user.user_name,
+              avatar: user.avatar,
               content: this.comment_content,
               create_time: new Date().getTime(),
             })
@@ -497,9 +500,11 @@ export default {
     },
     add_new_comment_component(content) {
       //加入新评论
+      let user = this.$store.state.user
       let commentItem = this.$create('CommentItem', {
-        user_id: this.$store.state.user_id, 
-        user_name: this.$store.state.user_name,
+        user_id: user.user_id, 
+        user_name: user.user_name,
+        avatar: user.avatar,
         content: content,
         create_time: new Date().getTime(),
       })
@@ -549,6 +554,13 @@ export default {
           this.comment_num = res.data.comment_num;
           this.is_like = res.data.is_like;
           this.update_time = res.data.update_time;
+
+          //获取文章用户信息
+          userinfo(this.user_id).then(res=>{
+            if (res && res.code == 0) {
+              this.user = res.data;
+            }
+          })
         } else {
           this.$router.push({
             path: "/article/" + this.article_id,

@@ -8,7 +8,7 @@
           <a :to="'/user/' + user_id"
             ><img
               class="avatar-img rounded-circle"
-              src="/static/images/avatar/07.jpg"
+              :src="avatar"
               alt=""
           /></a>
         </div>
@@ -42,6 +42,9 @@ export default {
       type: String
     },
     user_name: {
+      type: String
+    },
+    avatar: {
       type: String
     },
     create_time: {

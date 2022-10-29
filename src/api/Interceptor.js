@@ -11,7 +11,7 @@ const http= axios.create({
   validateStatus: (status) => {
     return (status >= 200 && status < 300) || status  == 401; //默认处理机制
   },
-  headers:{"Content-Type":"application/json"},
+  // headers:{"Content-Type":"application/json"},
 })
  
 //拦截器  -请求拦截
@@ -20,7 +20,7 @@ http.interceptors.request.use(config=>{
   if (token) {
     config.headers['Authorization'] = token
   }
-  if (config.method == "post") {
+  if (config.headers['Content-Type'] == undefined && config.method == "post") {
     config.headers['Content-Type'] = "application/json";
   }
   
@@ -43,7 +43,7 @@ http.interceptors.response.use(res=>{
         token_refreshing = true;
         //token失效过期
         let refresh_token = func.getRefreshToken()
-        if (refresh_token && refresh_token['exp'] - Math.round(new Date().getTime()/1000 > 10)) {
+        if (refresh_token && (refresh_token['exp'] - Math.round(new Date().getTime()/1000)) > 10) {
           //使用refresh_token去刷新token
 
           let promise =  new Promise(resolve => {
@@ -58,7 +58,6 @@ http.interceptors.response.use(res=>{
         } else {
           //token和refresh都不可用, 更新状态
           clearUserState()
-          window.location = '/';
         }
       } else {
         return new Promise(resolve => {
@@ -82,10 +81,11 @@ http.interceptors.response.use(res=>{
 
 //清楚用户状态
 function clearUserState() {
+  localStorage.removeItem('user');
+  func.delCookie('token');
+  func.delCookie('refresh_token');
+  store.commit('setUser', {});
   store.commit('setLoginStatus', false);
-  store.commit('setUserName', '');
-  store.commit('setUserId', '');
-  store.commit('setExpireTime', 0);
 }
 
 function refreshToken(token) {

@@ -58,6 +58,10 @@
   --bs-body-line-height: 1.5;
   --bs-body-color: #676a79;
   --bs-body-bg: #eff2f6;
+
+  --bs-hr-color: #a1a1a8;
+  --bs-h-color: #14191e;
+  --bs-table-color: #212529;
 }
 
 *,
@@ -88,7 +92,7 @@ body {
 
 hr {
   margin: 1rem 0;
-  color: #a1a1a8;
+  color: var(--bs-hr-color);
   background-color: currentColor;
   border: 0;
   opacity: 0.25;
@@ -104,7 +108,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   font-family: "Inter", sans-serif;
   font-weight: 700;
   line-height: 1.25;
-  color: #14191e;
+  color: var(--bs-h-color);
 }
 
 h1, .h1 {
@@ -2214,17 +2218,17 @@ progress {
 .table {
   --bs-table-bg: transparent;
   --bs-table-accent-bg: transparent;
-  --bs-table-striped-color: #212529;
+  --bs-table-striped-color: var(--bs-table-color);
   --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
-  --bs-table-active-color: #212529;
+  --bs-table-active-color: var(--bs-table-color);
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
-  --bs-table-hover-color: #212529;
+  --bs-table-hover-color: var(--bs-table-color);
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
   width: 100%;
   margin-bottom: 1rem;
-  color: #212529;
+  color: var(--bs-table-color);
   vertical-align: top;
-  border-color: #dee2e6;
+  border-color: var(--bs-table-border-color);
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
