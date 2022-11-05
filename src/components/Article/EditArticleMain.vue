@@ -33,6 +33,10 @@
                 <div class="col-12">
                   <div id="markdown-container" style="min-height:500px;"></div>
                 </div>
+                <div class="col-lg-3 col-sm-6 ms-3">
+                  <label class="form-label">文章标签</label>
+                  <input type="text" class="form-control" ref="tags">
+                </div>
                 <!-- Button  -->
                 <div class="col-12 text-end">
                   <button type="button" class="btn btn-primary mb-2 me-2" @click="publish" :disabled="is_publishing">
@@ -62,7 +66,8 @@ export default {
       article_id: this.$route.params.article_id,
       title:"",
       cherry: null,
-      is_publishing: false
+      is_publishing: false,
+      choices: null,
     };
   },
   methods: {
@@ -90,6 +95,7 @@ export default {
       params.title = this.title;
       params.content = this.cherry.getHtml();
       params.markdown_content = this.cherry.getMarkdown();
+      params.tags = this.choices.getValue().map(item => {return item.value});
 
       if (this.article_id == undefined) {
         const promise = article_put(params);
@@ -147,6 +153,7 @@ export default {
           if (res.code == 0 && res.data.user_id == user.user_id) { //文章用户才能修改
             this.title = res.data.title;
             this.cherry.setMarkdown(res.data.markdown_content);
+            this.choices.setValue(res.data.tags)
           } else {
             this.toast_style = 'text-danger'
             this.toast_message = '非法操作'
@@ -245,6 +252,19 @@ export default {
         ] // array or false
       }
     });
+
+    //文章标签
+    this.choices = new Choices(this.$refs.tags, {
+      maxItemCount: 5,
+      removeItems: true,
+      removeItemButton: true,
+      addItemText: (value) => {
+        return `按回车添加标签 <b>"${value}"</b>`;
+      },
+      maxItemText: (maxItemCount) => {
+        return `最多添加 ${maxItemCount} 个标签`;
+      },
+    });
   }
 };
 </script>
@@ -252,5 +272,11 @@ export default {
 .toast {
   width: 220px;
   letter-spacing: 1px;
+}
+.choices__item {
+    background-color: #6baced;
+    border: 1px solid #eef0f2;
+    border-radius: 0.4rem;
+    color: #29292e;
 }
 </style>

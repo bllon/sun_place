@@ -20,7 +20,7 @@
           <!-- Trending tab END -->
 
           <!-- 动态列表 -->
-          <Card v-for="(item,index) in article_list" :key="index" v-bind:CardData="item"></Card>
+          <Card v-for="(item,index) in article_list" :key="index" v-bind:CardData="item" v-bind:screenWidth="screenWidth"></Card>
 
           <!-- Load more button START -->
           <!-- <a

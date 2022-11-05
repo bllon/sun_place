@@ -241,13 +241,17 @@ export default {
       this.theme = this.func.changeTheme();
     },
     logout() {
-      logout();
-      localStorage.removeItem('user');
-      this.func.delCookie('token');
-      this.func.delCookie('refresh_token');
-      this.$store.commit('setUser', {});
-      this.$store.commit('setLoginStatus', false);
-      location.reload();
+      logout().then((res) => {
+        if (res && res.code == 0) {
+          this.$store.commit('setLoginStatus', false);
+          this.$store.commit('setUser', {});
+          localStorage.removeItem('user');
+          this.func.delCookie('token');
+          this.func.delCookie('refresh_token');
+
+          window.location = '/';
+        }
+      })  
     },
   },
   mounted() {
@@ -255,8 +259,6 @@ export default {
     if (this.$store.state.user) {
       this.user = this.$store.state.user
     }
-    // console.log(this.$store.state.user)
-    // console.log(this.$store.state.is_login)
   },
 };
 </script>

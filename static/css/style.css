@@ -7330,6 +7330,14 @@ textarea.form-control-lg {
   white-space: nowrap;
 }
 
+.text-truncate-flex {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
 .vr {
   display: inline-block;
   -ms-flex-item-align: stretch;
@@ -16316,10 +16324,11 @@ a.badge:hover {
   font-size: 0.9375rem;
 }
 .choices .choices__list--multiple .choices__item {
-  background-color: #eef0f2;
-  border: 1px solid #eef0f2;
+  background-color: #00bcd4;
+  /* border: 1px solid #eef0f2; */
   border-radius: 0.4rem;
-  color: #29292e;
+  color: #fff;
+  letter-spacing: 1px;
 }
 .choices .choices__list--dropdown {
   background: #fff;

@@ -22,12 +22,9 @@
                 <router-link @click.stop="" :to="'/user/' + CardData.user_id">{{CardData.user_name}}</router-link>
               </h6>
               <span class="small mx-2" style="font-size:0.5rem;">{{CardData.update_time | timeago}}</span>
-              <!-- <span class="nav-item small">
-                <span class="nav-item small">vue</span>
-                <span class="nav-item small">go</span>
-                <span class="nav-item small">javascript</span>
-              </span> -->
-              
+              <span class="nav-item small" v-if="screenWidth >= 992">
+                <router-link class="nav-item small text-secondary text-over" v-for="tag,index in CardData.tags" :key="index" :to="'/tags/' + tag">{{tag}}</router-link>
+              </span>
             </div>
           </div>
         </div>
@@ -69,58 +66,47 @@
     <!-- Card header END -->
     <!-- Card body START -->
     <div class="card-body px-2 py-0 pb-1">
-      <h5 class="mb-1">
-        {{CardData.title}}
-      </h5>
-      <p class="mb-1">
-        {{CardData.markdown_content}}
-      </p>
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="align-items-center">
+          <h5 class="mb-1 text-truncate-flex">
+            {{CardData.title}}
+          </h5>
+          <router-link class="text-secondary" :to="'/article/' + CardData.article_id" >
+            <p class="mb-1 text-truncate-flex" style="height:22px;" >
+              {{CardData.markdown_content}}
+            </p>
+          </router-link>
+          
+        </div>
+        <img class="card-img ms-3" style="display:block;width:120px;height:80px;" src="/static/images/bg/06.jpg" alt="Post" />
+        
+      </div>
+      
       <!-- Card img -->
       <!-- <img class="card-img" src="static/images/post/3by2/01.jpg" alt="Post" /> -->
       <!-- Feed react START -->
-      <ul class="nav nav-stack py-0 small">
-        <li class="nav-item me-2">
-          <a class="nav-link btn btn-light p-0" :class="{'text-primary' : CardData.is_like}" ref="like_1" @click="like($event, CardData.article_id)"><i ref="like_2" class="bi pe-1" :class="[ CardData.is_like ? 'bi-hand-thumbs-up-fill text-primary': 'bi-hand-thumbs-up']"></i>({{this.CardData.like_num}})</a>
-        </li>
-        <li class="nav-item me-2">
-          <router-link class="nav-link btn btn-light p-0" :to="'/article/' + CardData.article_id + '#comment'" @click="comment($event, CardData.article_id)"><i class="bi bi-chat pe-1"></i>({{this.CardData.comment_num}})</router-link>
-        </li>
-
-        <!-- Card share action START -->
-        <!-- <li class="nav-item dropdown">
-          <a
-            class="btn"
-            id="cardShareAction"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style="padding:0;"
-          >
-            <i class="bi bi-reply-fill flip-horizontal ps-1" ref="share"></i>
-          </a>
-          <ul
-            class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="cardShareAction"
-            ref="shareBox"
-          >
-            <li>
-              <a class="dropdown-item" @click.stop="">
-                <i class="bi bi-link fa-fw pe-2"></i>复制文章链接</a
-              >
+      <div class="d-flex align-items-center justify-content-between mt-2">
+        <div class="d-flex align-items-center">
+          <ul class="nav nav-stack py-0 small">
+            <li class="nav-item me-2">
+              <a class="nav-link btn btn-light p-0" :class="{'text-primary' : CardData.is_like}" ref="like_1" @click="like($event, CardData.article_id)"><i ref="like_2" class="bi pe-1" :class="[ CardData.is_like ? 'bi-hand-thumbs-up-fill text-primary': 'bi-hand-thumbs-up']"></i>({{this.CardData.like_num}})</a>
             </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a class="dropdown-item" @click.stop="">
-                <i class="bi bi-pencil-square fa-fw pe-2"></i>分享到文章</a
-              >
+            <li class="nav-item me-2">
+              <router-link class="nav-link btn btn-light p-0" :to="'/article/' + CardData.article_id + '#comment'" @click="comment($event, CardData.article_id)"><i class="bi bi-chat pe-1"></i>({{this.CardData.comment_num}})</router-link>
             </li>
+          <!-- Card share action START -->
+          
+          <!-- Card share action END -->
           </ul>
-        </li> -->
-        <!-- Card share action END -->
+        </div>
+      
+        <div class="" v-if="screenWidth < 992">
+          <router-link v-for="tag,index in CardData.tags" :key="index" class="btn btn-outline-info btn-sm py-0 px-1 me-1" style="letter-spacing: 1px;" :to="'/tags/' + tag">{{tag}}</router-link>
+        </div>
+      </div>
 
-        
-      </ul>
-      <!-- Feed react END -->
     </div>
+    <!-- <hr> -->
     <!-- Card body END -->
   </div>
   <!-- Card feed item END -->
@@ -130,7 +116,7 @@
 import { article_like_save, article_like_cancel } from "@/api/article.js"  
 export default {
   name: "Card",
-  props: ["CardData"],
+  props: ["CardData", "screenWidth"],
   data() {
     return {};
   },
@@ -187,6 +173,11 @@ export default {
   mounted(){
     if (this.CardData.markdown_content) {
       this.CardData.markdown_content = this.CardData.markdown_content.substring(0,40);
+      if (this.CardData.tags == "") {
+        this.CardData.tags = []
+      } else {
+        this.CardData.tags = this.CardData.tags.split(',')
+      }
     }
   },
   beforeMount(){

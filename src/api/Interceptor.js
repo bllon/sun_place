@@ -97,7 +97,7 @@ function refreshToken(token) {
     headers: {
       'Authorization':token
     }
-  }).then(function(response) {
+  }).then((response) => {
     if (response && response.data && response.data.code === 0) {
       //刷新token成功, 执行队列中的请求
       retryRequests.forEach(retry => retry())
@@ -107,6 +107,9 @@ function refreshToken(token) {
       window.location = '/';
     }
     token_refreshing = false;
+  },(err) => {
+    clearUserState()
+    window.location = '/';
   });
 }
  
