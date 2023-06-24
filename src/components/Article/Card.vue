@@ -78,7 +78,7 @@
           </router-link>
           
         </div>
-        <img class="card-img ms-3" style="display:block;width:120px;height:80px;" src="/static/images/bg/06.jpg" alt="Post" />
+        <img v-if="CardData.cover" class="card-img ms-3" style="display:block;width:120px;height:80px;" :src="CardData.cover"/>
         
       </div>
       

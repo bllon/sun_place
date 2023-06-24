@@ -256,9 +256,13 @@ export default {
   },
   mounted() {
     //获取用户信息
-    if (this.$store.state.user) {
-      this.user = this.$store.state.user
-    }
+    let timer = setInterval(() => {
+      if (this.$store.getters.user.user_id) {
+        this.user = this.$store.getters.user
+        clearInterval(timer)
+        timer=null
+      }
+    },100)
   },
 };
 </script>

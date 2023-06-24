@@ -33,9 +33,18 @@
                 <div class="col-12">
                   <div id="markdown-container" style="min-height:500px;"></div>
                 </div>
-                <div class="col-lg-3 col-sm-6 ms-3">
+                <div class="col-lg-3 col-sm-6 px-3">
                   <label class="form-label">文章标签</label>
                   <input type="text" class="form-control" ref="tags">
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                </div>
+                <div class="col-sm-6 col-lg-6">
+                  <button type="button" class="btn btn-sm btn-success mb-0 ms-4" @click="select_file()">上传封面</button>
+                  <img  class="ms-3 mt-2" style="display:inline-block;width:120px;height:80px;" :style="[{visibility:cover=='' ? 'hidden' : 'visible'}]" :src="cover"/>
+                  <input type="file" accept='image/*' class="invisible" ref="selectFile" @change="change_img($event)">
+                </div>
+                <div class="col-lg-6 col-sm-6">
                 </div>
                 <!-- Button  -->
                 <div class="col-12 text-end">
@@ -63,11 +72,13 @@ export default {
   name: "EditArticleMain",
   data() {
     return {
-      article_id: this.$route.params.article_id,
+      article_id: this.$route.params.article_id ? parseInt(this.$route.params.article_id) : undefined,
       title:"",
       cherry: null,
       is_publishing: false,
       choices: null,
+      cover:'',
+      update_cover: null,
     };
   },
   methods: {
@@ -91,11 +102,16 @@ export default {
         return;
       }
 
-      var params = {};
-      params.title = this.title;
-      params.content = this.cherry.getHtml();
-      params.markdown_content = this.cherry.getMarkdown();
-      params.tags = this.choices.getValue().map(item => {return item.value});
+      let params = new FormData()
+      params.append('title', this.title)
+      params.append('content', this.cherry.getHtml())
+      params.append('markdown_content', this.cherry.getMarkdown())
+      params.append('tags', this.choices.getValue().map(item => {return item.value}))
+      if (this.update_cover) {
+        params.append('cover', this.update_cover)
+      } else {
+        params.append('cover', this.cover)
+      }
 
       if (this.article_id == undefined) {
         const promise = article_put(params);
@@ -118,7 +134,7 @@ export default {
         })
       } else {
         //修改
-        params.article_id = this.article_id;
+        params.append('article_id', this.article_id)
         const promise = article_edit(params);
         promise.then((res) => {
           if (res) {
@@ -137,6 +153,25 @@ export default {
         })
       }
     },
+    change_img(e) {
+      if (e.target.files[0] == undefined){
+          this.update_cover = null;
+          return;
+      }
+      var that = this
+      var reader = new FileReader();
+      reader.onload = (function (file) {
+          // console.log(file.name, file.size, file.type)
+          return function (e) {
+              that.cover = e.target.result;
+          };
+      })(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
+      that.update_cover = e.target.files[0];
+    },
+    select_file(){
+      this.$refs.selectFile.click()
+    }
   },
   created() {
     
@@ -153,7 +188,10 @@ export default {
           if (res.code == 0 && res.data.user_id == user.user_id) { //文章用户才能修改
             this.title = res.data.title;
             this.cherry.setMarkdown(res.data.markdown_content);
-            this.choices.setValue(res.data.tags)
+            if (res.data.tags) {
+              this.choices.setValue(res.data.tags)
+            }
+            this.cover = res.data.cover
           } else {
             this.toast_style = 'text-danger'
             this.toast_message = '非法操作'

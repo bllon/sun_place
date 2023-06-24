@@ -7,6 +7,7 @@ export function article_put(params) {
     return request({
         url:'article/put',
         method :'post',
+        headers:{"Content-Type":"multipart/form-data"},
         data: params
     })
 }
@@ -15,6 +16,7 @@ export function article_edit(params) {
     return request({
         url:'article/edit',
         method :'post',
+        headers:{"Content-Type":"multipart/form-data"},
         data: params
     })
 }
@@ -87,5 +89,13 @@ export function comment_like_save(params) {
         url:'comment/like/save',
         method :'post',
         data: params,
+    })
+}
+
+export function article_share(params) {
+    return request({
+        url:'article/share',
+        method :'get',
+        params: params,
     })
 }

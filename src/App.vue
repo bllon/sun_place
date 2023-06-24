@@ -28,6 +28,7 @@ export default {
         let user_id = this.func.getUserId();
         userinfo(user_id).then(res=>{
           if (res && res.code == 0) {
+            this.$store.commit('setUser', JSON.parse(JSON.stringify(res.data)));
             localStorage.setItem('user', JSON.stringify(res.data));
           }
         })

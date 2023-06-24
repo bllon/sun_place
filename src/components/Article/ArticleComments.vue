@@ -209,7 +209,7 @@ export default {
   props: [ "comment_num" ],
   data() {
       return {
-        article_id: this.$route.params.article_id,
+        article_id: parseInt(this.$route.params.article_id),
         comment_content: "",
         comment_list: [],
         reply_comment_box: null,

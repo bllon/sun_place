@@ -101,9 +101,11 @@ export default {
               userinfo(user_id).then(res=>{
                 if (res && res.code == 0) {
                   localStorage.setItem('user', JSON.stringify(res.data));
+                  location.reload();
+                } else {
+                  this.$toast({ message: "用户异常", text_style: "danger" }).show();
                 }
               })
-              location.reload();
             } else {
               form.classList.add('was-validated')
               this.$toast({message: res.msg, text_style: "danger"}).show()

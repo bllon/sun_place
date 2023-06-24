@@ -150,6 +150,8 @@ export default {
     promise.then((res) => {
       if (res && res.code == 0 && res.data != null) {
         this.article_list = res.data;
+      } else {
+        window.scrollTo(0, document.documentElement.clientHeight - 50);
       }
     })
     

@@ -100,6 +100,7 @@
 
             <!-- Create a page form START -->
             <div class="card-body">
+              <!-- <img v-if="cover" :src="cover" alt="" class="card-img rounded"> -->
               <div class="row g-3" v-html="content"></div>
             </div>
             <!-- Create a page form END -->
@@ -143,8 +144,8 @@
                 aria-labelledby="cardShareAction"
               >
                 <li>
-                  <a class="dropdown-item" href="#">
-                    <i class="bi bi-envelope fa-fw pe-2"></i>分享链接</a
+                  <button class="dropdown-item" @click="share()">
+                    <i class="bi bi-envelope fa-fw pe-2"></i>分享链接</button
                   >
                 </li>
                 <!-- <li>
@@ -192,6 +193,7 @@ import {
   article_info,
   article_like_save,
   article_like_cancel,
+  article_share,
 } from "@/api/article.js";
 import { userinfo } from "@/api/user.js";
 export default {
@@ -210,6 +212,7 @@ export default {
       like_num: 0,
       comment_num: 0,
       tags: [],
+      cover: '',
       user: {},//文章用户信息
     };
   },
@@ -240,6 +243,21 @@ export default {
     },
     add_comment_num() {
       this.comment_num++;
+    },
+    share() {
+      article_share({ article_id: this.article_id }).then(res=>{
+        if (res && res.code == 0) {
+          const inputDom = document.createElement('input');
+          inputDom.setAttribute('value', res.data);
+          document.body.appendChild(inputDom);
+          inputDom.select();
+          document.execCommand('copy');
+          document.body.removeChild(inputDom);
+          this.$toast({ message: "链接已复制成功", text_style: "success" }).show();
+        } else {
+          this.$toast({ message: res.msg, text_style: "danger" }).show();
+        }
+      })
     }
   },
   created() {
@@ -256,6 +274,7 @@ export default {
           this.like_num = res.data.like_num;
           this.comment_num = res.data.comment_num;
           this.tags = res.data.tags;
+          this.cover = res.data.cover;
           this.is_like = res.data.is_like;
           this.update_time = res.data.update_time;
 

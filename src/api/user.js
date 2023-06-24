@@ -40,6 +40,7 @@ export function refresh_token() {
 }
 
 export function userinfo(params) {
+    params = parseInt(params)
     return request({
         url:'user/' + params,
         method :'get',
