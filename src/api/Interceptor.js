@@ -16,7 +16,8 @@ const http= axios.create({
  
 //拦截器  -请求拦截
 http.interceptors.request.use(config=>{
-  let token = func.getCookie('token')
+  let token = func.getToken();
+
   if (token) {
     config.headers['Authorization'] = token
   }
@@ -72,6 +73,7 @@ http.interceptors.response.use(res=>{
     // return Promise.reject(res)
   }
 },err=>{
+  console.log(err)
   if (err.code == 'ERR_NETWORK') {
     func.toast('连接服务器异常', 'danger')
   } else {

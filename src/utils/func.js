@@ -56,7 +56,7 @@ export default {
         document.cookie=c_name+ "="+escape("")+"; expires="+date.toGMTString()
     },
     getUserId() {
-        var token = this.getCookie('token');
+        var token = this.getToken();
         if(token == '') {
             return '';
         } else {
@@ -69,19 +69,34 @@ export default {
             return userInfo['user_id'] ? userInfo['user_id'] : '';
         }
     },
-    getRefreshToken() {
-        var token = this.getCookie('refresh_token');
-        if(token == '') {
-            return null;
-        } else {
-            var arr = token.split(".")
-            if (arr.length < 3) {
-                return null;
-            }
-            let userInfo = decodeURIComponent(escape(window.atob(arr[1].replace(/-/g, "+").replace(/_/g, "/"))));
-            userInfo = JSON.parse(userInfo);
-            return {token: token, exp: userInfo['exp'] ? userInfo['exp'] : 0};
+    getToken() {
+        // return getCookie('token');
+        var token = localStorage.getItem('token');
+        if (token == null) {
+            return '';
         }
+        return token;
+    },
+    getRefreshToken() {
+        // var token = this.getCookie('refresh_token');
+        // if(token == '') {
+        //     return null;
+        // } else {
+        //     var arr = token.split(".")
+        //     if (arr.length < 3) {
+        //         return null;
+        //     }
+        //     let userInfo = decodeURIComponent(escape(window.atob(arr[1].replace(/-/g, "+").replace(/_/g, "/"))));
+        //     userInfo = JSON.parse(userInfo);
+        //     return {token: token, exp: userInfo['exp'] ? userInfo['exp'] : 0};
+        // }
+
+        var token = localStorage.getItem('refresh_token');
+        token = token == null ? '' : token;
+        var expire = localStorage.getItem('refresh_expire_time');
+        expire = expire == null ? 0 : expire;
+
+        return {token: token, exp: expire};
     },
     isNull(str) {
         if (str == "") {

@@ -82,8 +82,8 @@ export default {
   data() {
     return {
       form: {
-        user_name: "burrito",
-        password: "Ab123456",
+        user_name: "assab",  //burrito
+        password: "Qw123456", //Ab123456
       }
     };
   },
@@ -92,15 +92,22 @@ export default {
       const form = this.$refs.loginForm;
       if (form.checkValidity()) {
         //调用登录api
+        console.log('登录')
         const promise = login(this.form)
         promise.then((res) => {
           if (res) {
             if (res.code == 0) {
+              localStorage.setItem('token', res.data.token)
+              localStorage.setItem('expire_time', res.data.expire_time)
+              localStorage.setItem('refresh_token', res.data.refresh_token)
+              localStorage.setItem('refresh_expire_time', res.data.refresh_expire_time)
+
               //请求获取用户信息
               let user_id = this.func.getUserId();
               userinfo(user_id).then(res=>{
                 if (res && res.code == 0) {
                   localStorage.setItem('user', JSON.stringify(res.data));
+                  
                   location.reload();
                 } else {
                   this.$toast({ message: "用户异常", text_style: "danger" }).show();

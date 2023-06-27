@@ -249,6 +249,11 @@ export default {
           this.func.delCookie('token');
           this.func.delCookie('refresh_token');
 
+          localStorage.removeItem('token');
+          localStorage.removeItem('refresh_token');
+          localStorage.removeItem('expire_time');
+          localStorage.removeItem('refresh_expire_time');
+
           window.location = '/';
         }
       })  

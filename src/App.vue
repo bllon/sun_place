@@ -14,7 +14,7 @@ export default {
   },
   created() {
     //获取全局登录状态，并设置
-    const token = this.func.getCookie('token');
+    const token = this.func.getToken();
     if (token != "") {
        //有登陆态
       this.$store.commit('setLoginStatus', true);
