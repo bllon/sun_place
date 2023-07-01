@@ -82,8 +82,8 @@ export default {
   data() {
     return {
       form: {
-        user_name: "assab",  //burrito
-        password: "Qw123456", //Ab123456
+        user_name: "burrito",  //burrito assab
+        password: "Ab123456", //Ab123456 Qw123456
       }
     };
   },
@@ -92,7 +92,6 @@ export default {
       const form = this.$refs.loginForm;
       if (form.checkValidity()) {
         //调用登录api
-        console.log('登录')
         const promise = login(this.form)
         promise.then((res) => {
           if (res) {

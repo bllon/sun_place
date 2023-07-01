@@ -18,7 +18,7 @@ const http= axios.create({
 http.interceptors.request.use(config=>{
   let token = func.getToken();
 
-  if (token) {
+  if (token && config.url != "user/login" && config.url != "user/register") {
     config.headers['Authorization'] = token
   }
   if (config.headers['Content-Type'] == undefined && config.method == "post") {

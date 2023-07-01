@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/Index'
-import Resume from '@/components/Tools/Resume/Resume'
+import Resume from '@/components/Resume/Resume'
 import EditArticle from '@/components/Article/EditArticle'
 import Article from '@/components/Article/Article'
 import Error404 from '@/components/Error/Error404'
 import Error500 from '@/components/Error/Error500'
 import Profile from '@/components/User/Profile'
 import Setting from '@/components/User/Setting'
+
+//AI助手
+import Assistant from '@/components/Assistant/Assistant'
 
 Vue.use(Router)
 
@@ -78,6 +81,20 @@ export default new Router({
       path: '/setting',
       name: 'Setting',
       component: Setting
+    },
+
+    //简历助手
+    {
+      path: '/resume',
+      name: 'Resume',
+      component: Resume,
+    },
+
+    //AI助手
+    {
+      path: '/assistant',
+      name: 'Assistant',
+      component: Assistant,
     },
 
     //404

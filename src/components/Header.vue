@@ -42,12 +42,12 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/">首页</router-link>
             </li>
-            <!-- <li class="nav-item">
-              <router-link class="nav-link" to="/">简历助手</router-link>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/resume">简历助手</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/">我的题库</router-link>
-            </li> -->
+              <router-link class="nav-link" to="/assistant">AI助手</router-link>
+            </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/article/new">发布文章</router-link>
             </li>

@@ -186,6 +186,13 @@ export default {
 };
 </script>
 <style scoped>
+.card {
+    
+    background-clip: border-box;
+    border: 1.5px solid rgba(172, 200, 207, 0.5);
+    border-radius: 1.4rem;
+}
+
 /* 只在当前页面覆盖此css */.nav-item::before{
   padding-left: 0.25rem !important;
   padding-right: 0.25rem !important;
